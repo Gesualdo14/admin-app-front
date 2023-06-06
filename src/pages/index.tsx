@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Container, Heading } from "@chakra-ui/react"
+import { Button, ButtonGroup, Card, Container, Heading } from "@chakra-ui/react"
 import styles from "./index.module.css"
 import { type NextPage } from "next"
 import Head from "next/head"
@@ -16,44 +16,28 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container marginTop={8}>
-        <Heading>Mis ventas</Heading>
-        <ButtonGroup>
-          <Button
-            colorScheme="blue"
-            onClick={() => {
-              router.push("/login")
-            }}
-          >
-            Iniciar sesión
-          </Button>
-          <Button
-            colorScheme="green"
-            onClick={() => {
-              axios.get(`${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales`, {
-                withCredentials: true,
-              })
-            }}
-          >
-            Get sales
-          </Button>
-          <Button
-            colorScheme="purple"
-            onClick={() => {
-              axios.post(
-                `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales`,
-                {
-                  operation_date: new Date(),
-                  total_amount: 2500,
-                },
-                {
-                  withCredentials: true,
-                }
-              )
-            }}
-          >
-            Create sale
-          </Button>
-        </ButtonGroup>
+        <Card p={4}>
+          <Heading>Mis ventas</Heading>
+          <ButtonGroup mt={8}>
+            <Button
+              colorScheme="blue"
+              onClick={() => {
+                router.push("/login")
+              }}
+            >
+              Iniciar sesión
+            </Button>
+
+            <Button
+              colorScheme="purple"
+              onClick={() => {
+                router.push("/clients")
+              }}
+            >
+              Clientes
+            </Button>
+          </ButtonGroup>
+        </Card>
       </Container>
     </>
   )
