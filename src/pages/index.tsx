@@ -16,18 +16,27 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container marginTop={8}>
+        <Button
+          colorScheme="blue"
+          mb={2}
+          alignSelf="end"
+          onClick={() => {
+            router.push("/login")
+          }}
+        >
+          Iniciar sesión
+        </Button>
         <Card p={4}>
           <Heading>Mis ventas</Heading>
           <ButtonGroup mt={8}>
             <Button
               colorScheme="blue"
               onClick={() => {
-                router.push("/login")
+                router.push("/sales/new")
               }}
             >
-              Iniciar sesión
+              Nueva venta
             </Button>
-
             <Button
               colorScheme="purple"
               onClick={() => {
