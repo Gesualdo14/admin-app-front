@@ -7,7 +7,7 @@ const NewClient: NextPage = () => {
     <Container mt={8}>
       <Card padding={4}>
         <Heading textAlign="center" mb={6}>
-          Nuevo cliente
+          Nueva venta
         </Heading>
         <SaleForm />
       </Card>

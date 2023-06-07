@@ -1,10 +1,13 @@
 import {
+  Box,
   Button,
   ButtonGroup,
+  Divider,
   Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Heading,
   IconButton,
   Input,
   Select,
@@ -153,21 +156,31 @@ const SaleForm = ({ saleId }: Props) => {
           <FormLabel>Documento del cliente</FormLabel>
           <Input
             type="text"
-            placeholder="Nombre"
+            placeholder="Documento"
             {...register("client_document")}
           />
           <FormErrorMessage>{errors.client_document?.message}</FormErrorMessage>
         </FormControl>
         <FormControl mb={5} isInvalid={!!errors.operation_date}>
           <FormLabel>Fecha de la operación</FormLabel>
-          <DatePicker
-            selected={startDate}
-            ref={register("operation_date").ref}
-            onChange={(date: Date) => setValue("operation_date", date)}
-          />
+          <Input type="date" {...register("operation_date")} />
           <FormErrorMessage>{errors.operation_date?.message}</FormErrorMessage>
         </FormControl>
-        <Flex flexDir="column" mb={4}>
+        <Flex alignItems="center" justifyContent={"space-between"} mt="8">
+          <Heading size="lg">Productos</Heading>
+          <Button
+            size="xs"
+            fontSize="1rem"
+            lineHeight="1rem"
+            py={4}
+            colorScheme="blue"
+            onClick={() => addProduct(defaultProduct)}
+          >
+            Agregar
+          </Button>
+        </Flex>
+        <Divider mb="3" mt="2" />
+        <Flex flexDir="column" alignItems="flex-end" mb={4}>
           {products.map((field, index) => (
             <Flex gap={3} alignItems="flex-end" mb={5}>
               <IconButton
@@ -195,7 +208,7 @@ const SaleForm = ({ saleId }: Props) => {
                 }}
               />
               <FormControl flex={2}>
-                <FormLabel>Código</FormLabel>
+                {index === 0 && <FormLabel>Código</FormLabel>}
                 <Input
                   type="text"
                   placeholder="Código"
@@ -203,7 +216,7 @@ const SaleForm = ({ saleId }: Props) => {
                 />
               </FormControl>
               <FormControl flex={5}>
-                <FormLabel>Denominación</FormLabel>
+                {index === 0 && <FormLabel>Denominación</FormLabel>}
 
                 <Input
                   type="text"
@@ -212,31 +225,50 @@ const SaleForm = ({ saleId }: Props) => {
                   disabled
                 />
               </FormControl>
-              <FormControl flex={1}>
+              <FormControl flex={2}>
                 <Flex alignItems="center" justifyContent="space-between">
-                  <FormLabel>Cantidad</FormLabel>
-                  {index > 0 && (
-                    <DeleteIcon
-                      mb={2}
-                      color="red.500"
-                      _hover={{ color: "red.700", cursor: "pointer" }}
-                      onClick={() => removeProduct(index)}
-                    />
-                  )}
+                  {index === 0 && <FormLabel>Cantidad</FormLabel>}
                 </Flex>
                 <Input type="number" {...register(`products.${index}.qty`)} />
               </FormControl>
+              {index > 0 ? (
+                <DeleteIcon
+                  flex={0.5}
+                  mb={2}
+                  color="red.500"
+                  _hover={{ color: "red.700", cursor: "pointer" }}
+                  onClick={() => removeProduct(index)}
+                />
+              ) : (
+                <DeleteIcon
+                  flex={0.5}
+                  mb={2}
+                  color="white"
+                  _hover={{ cursor: "normal" }}
+                />
+              )}
             </Flex>
           ))}
-          <Button onClick={() => addProduct(defaultProduct)}>
-            Nuevo producto
+        </Flex>
+        <Flex alignItems="center" justifyContent={"space-between"} mt="8">
+          <Heading size="lg">Forma de pago</Heading>
+          <Button
+            size="xs"
+            fontSize="1rem"
+            lineHeight="1rem"
+            py={4}
+            colorScheme="blue"
+            onClick={() => append(defaultPM)}
+          >
+            Agregar
           </Button>
         </Flex>
-        <Flex flexDir="column" mb={4}>
+        <Divider mb="3" mt="2" />
+        <Flex flexDir="column" alignItems="flex-end" mb={4}>
           {fields.map((field, index) => (
             <Flex gap={3} alignItems="flex-end" mb={5}>
               <FormControl flex={7}>
-                <FormLabel>Método</FormLabel>
+                {index === 0 && <FormLabel>Método</FormLabel>}
                 <Select
                   placeholder="Seleccionar"
                   {...register(`payment_methods.${index}.method`)}
@@ -250,7 +282,7 @@ const SaleForm = ({ saleId }: Props) => {
               </FormControl>
 
               <FormControl flex={3} isInvalid={!!errors?.payment_methods}>
-                <FormLabel>Valor</FormLabel>
+                {index === 0 && <FormLabel>Valor</FormLabel>}
                 <Input
                   type="text"
                   placeholder="Valor"
@@ -258,7 +290,7 @@ const SaleForm = ({ saleId }: Props) => {
                 />
               </FormControl>
               <FormControl flex={2} isInvalid={!!errors?.payment_methods}>
-                <FormLabel>Plazo</FormLabel>
+                {index === 0 && <FormLabel>Plazo</FormLabel>}
 
                 <Input
                   type="number"
@@ -268,15 +300,7 @@ const SaleForm = ({ saleId }: Props) => {
               </FormControl>
               <FormControl flex={4}>
                 <Flex alignItems="center" justifyContent="space-between">
-                  <FormLabel>Período</FormLabel>
-                  {index > 0 && (
-                    <DeleteIcon
-                      mb={2}
-                      color="red.500"
-                      _hover={{ color: "red.700", cursor: "pointer" }}
-                      onClick={() => remove(index)}
-                    />
-                  )}
+                  {index === 0 && <FormLabel>Período</FormLabel>}
                 </Flex>
                 <Select
                   placeholder="Seleccionar"
@@ -289,9 +313,18 @@ const SaleForm = ({ saleId }: Props) => {
                   ))}
                 </Select>
               </FormControl>
+              {index > 0 ? (
+                <DeleteIcon
+                  mb={2}
+                  color="red.500"
+                  _hover={{ color: "red.700", cursor: "pointer" }}
+                  onClick={() => remove(index)}
+                />
+              ) : (
+                <DeleteIcon mb={2} color="white" _hover={{ color: "white" }} />
+              )}
             </Flex>
           ))}
-          <Button onClick={() => append(defaultPM)}>Nuevo método</Button>
         </Flex>
         <ButtonGroup>
           <Button colorScheme="purple" type="submit">
