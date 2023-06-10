@@ -1,12 +1,30 @@
-import { Button, ButtonGroup, Card, Container, Heading } from "@chakra-ui/react"
-import styles from "./index.module.css"
+import {
+  Button,
+  ButtonGroup,
+  Card,
+  Container,
+  Heading,
+  Spinner,
+} from "@chakra-ui/react"
 import { type NextPage } from "next"
 import Head from "next/head"
 import { env } from "~/env.mjs"
 import { useRouter } from "next/router"
 import axios from "axios"
+import { useQuery } from "@tanstack/react-query"
+import SalesList from "components/entities/sales/SalesList"
 
 const Home: NextPage = () => {
+  const { data: sales, isLoading } = useQuery({
+    queryKey: ["sales"],
+    queryFn: async () => {
+      const res = await axios.get(`${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales`, {
+        withCredentials: true,
+      })
+      return res.data.data
+    },
+  })
+
   const router = useRouter()
   return (
     <>
@@ -28,6 +46,7 @@ const Home: NextPage = () => {
         </Button>
         <Card p={4}>
           <Heading>Mis ventas</Heading>
+          {isLoading ? <Spinner /> : <SalesList sales={sales} />}
           <ButtonGroup mt={8}>
             <Button
               colorScheme="blue"

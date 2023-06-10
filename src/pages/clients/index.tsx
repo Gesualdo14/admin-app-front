@@ -30,7 +30,6 @@ const Clients: NextPage = () => {
   })
 
   const router = useRouter()
-  console.log({ isLoading, isFetching })
 
   return (
     <Container mt={8} bg={"#eee"}>

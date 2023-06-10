@@ -1,17 +1,26 @@
 import { Card, Flex, Text } from "@chakra-ui/react"
 import { useRouter } from "next/router"
-import { ClientListProps } from "schemas/ClientSchema"
 
-const ClientsList = ({ clients }: ClientListProps) => {
+interface SaleFromDB {
+  _id: string
+  total_amount: number
+  client: string
+}
+
+interface Props {
+  sales: SaleFromDB[]
+}
+
+const SalesList = ({ sales }: Props) => {
   const router = useRouter()
   return (
     <>
       <Flex flexDirection="column" gap={2} mt={2}>
-        {clients
-          .sort((a, b) => (b.sales?.amount || 0) - (a.sales?.amount || 0))
-          .map((c) => (
+        {sales
+          .sort((a, b) => (b?.total_amount || 0) - (a?.total_amount || 0))
+          .map((s) => (
             <Card
-              key={c._id}
+              key={s._id}
               py={2}
               px={4}
               cursor="pointer"
@@ -21,12 +30,12 @@ const ClientsList = ({ clients }: ClientListProps) => {
                 transition:
                   "0.2s background-color ease-out, 0.2s color ease-out",
               }}
-              onClick={() => router.push(`/clients/${c._id}`)}
+              onClick={() => router.push(`/sales/${s._id}`)}
               flexDir="row"
               justifyContent="space-between"
             >
-              <Text>{c.firstname}</Text>
-              <Text color="green">$ {c.sales?.amount?.toFixed(2) || 0}</Text>
+              <Text>{s.client}</Text>
+              <Text>$ {s.total_amount?.toFixed(2) || 0}</Text>
             </Card>
           ))}
       </Flex>
@@ -41,4 +50,4 @@ const ClientsList = ({ clients }: ClientListProps) => {
   )
 }
 
-export default ClientsList
+export default SalesList

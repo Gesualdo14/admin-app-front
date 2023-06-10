@@ -14,32 +14,16 @@ import { useForm } from "react-hook-form"
 import axios from "axios"
 import { env } from "~/env.mjs"
 import { useRouter } from "next/router"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-
-const schema = z.object({
-  email: z.string().email("Email inválido"),
-  code: z.string().length(6, "El código debe tener 6 caracteres"),
-})
-
-type FieldValues = z.infer<typeof schema>
+import MyForm from "components/ui/forms/MyForm"
+import MyInput from "components/ui/inputs/MyInput"
+import LoginButtons from "components/entities/users/LoginButtons"
+import { Login, LoginSchema } from "schemas/AuthSchema"
 
 const Login: NextPage = () => {
-  const {
-    register,
-    getValues,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FieldValues>({
-    resolver: zodResolver(schema),
-    defaultValues: { email: "ignaciogesualdo@gmail.com" },
-  })
-
   const router = useRouter()
 
-  const onSubmit = () => {
-    const { email, code } = getValues()
-    console.log({ email, code })
+  const onSubmit = (data: Login) => {
+    const { email, code } = data
     axios
       .post(
         `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/login/${email}`,
@@ -52,51 +36,26 @@ const Login: NextPage = () => {
       .catch((error) => console.log(error))
   }
 
-  const onError = () => {
+  const onError = (errors: any) => {
     console.log({ errors })
   }
 
   return (
     <Container marginTop={10}>
-      <Heading textAlign="center">Iniciar sesión</Heading>
       <Card padding={3} maxWidth="">
-        <form onSubmit={handleSubmit(onSubmit, onError)}>
-          <FormControl marginBottom={5} isInvalid={!!errors.email}>
-            <FormLabel>Email</FormLabel>
-            <Input
-              type="text"
-              placeholder="Ingresa tu email"
-              {...register("email")}
-            />
-            <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!errors.code}>
-            <FormLabel>Código</FormLabel>
-            <Input
-              type="number"
-              placeholder="Ingresa tu código"
-              {...register("code", { required: true, minLength: 6 })}
-            />
-            <FormErrorMessage>{errors.code?.message}</FormErrorMessage>
-          </FormControl>
-          <ButtonGroup marginTop={8} justifyContent="center">
-            <Button type="submit">Iniciar sesión</Button>{" "}
-            <Button
-              onClick={() => {
-                const email = getValues("email")
-
-                axios
-                  .post(
-                    `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/login/${email}/code`
-                  )
-                  .then(console.log)
-                  .catch(console.log)
-              }}
-            >
-              Quiero un código
-            </Button>
-          </ButtonGroup>
-        </form>
+        <Heading textAlign="center" mb={4}>
+          Iniciar sesión
+        </Heading>
+        <MyForm
+          defaultValues={{ email: "ignaciogesualdo@gmail.com" }}
+          zodSchema={LoginSchema}
+          onSubmit={onSubmit}
+          onError={onError}
+        >
+          <MyInput fieldName="email" label="Email" />
+          <MyInput fieldName="code" label="Código" />
+          <LoginButtons />
+        </MyForm>
       </Card>
     </Container>
   )
