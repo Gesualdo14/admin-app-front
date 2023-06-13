@@ -1,9 +1,11 @@
-import { Button, ButtonGroup } from "@chakra-ui/react"
+import { CheckIcon } from "@chakra-ui/icons"
+import { Button, ButtonGroup, useToast } from "@chakra-ui/react"
 import axios from "axios"
 import { useFormContext } from "react-hook-form"
 import { env } from "~/env.mjs"
 
 const LoginButtons = () => {
+  const toast = useToast()
   const { getValues } = useFormContext()
   return (
     <ButtonGroup marginTop={8} justifyContent="center">
@@ -18,7 +20,15 @@ const LoginButtons = () => {
             .post(
               `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/login/${email}/code`
             )
-            .then(console.log)
+            .then(({ data }) => {
+              console.log({ data })
+              toast({
+                description: data.message,
+                status: "success",
+                icon: <CheckIcon />,
+                position: "top",
+              })
+            })
             .catch(console.log)
         }}
       >

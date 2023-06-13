@@ -13,6 +13,7 @@ import { useRouter } from "next/router"
 import axios from "axios"
 import { useQuery } from "@tanstack/react-query"
 import SalesList from "components/entities/sales/SalesList"
+import AppHeader from "components/global/AppHeader"
 
 const Home: NextPage = () => {
   const { data: sales, isLoading } = useQuery({
@@ -34,16 +35,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container marginTop={8}>
-        <Button
-          colorScheme="blue"
-          mb={2}
-          alignSelf="end"
-          onClick={() => {
-            router.push("/login")
-          }}
-        >
-          Iniciar sesión
-        </Button>
+        <AppHeader />
         <Card p={4}>
           <Heading>Mis ventas</Heading>
           {isLoading ? <Spinner /> : <SalesList sales={sales} />}

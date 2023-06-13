@@ -18,8 +18,10 @@ import MyForm from "components/ui/forms/MyForm"
 import MyInput from "components/ui/inputs/MyInput"
 import LoginButtons from "components/entities/users/LoginButtons"
 import { Login, LoginSchema } from "schemas/AuthSchema"
+import useAuth from "hooks/useAuth"
 
 const Login: NextPage = () => {
+  const { setUser } = useAuth()
   const router = useRouter()
 
   const onSubmit = (data: Login) => {
@@ -31,6 +33,9 @@ const Login: NextPage = () => {
         { withCredentials: true }
       )
       .then(({ data }) => {
+        const tokenPayload = data.data
+        localStorage.setItem("user", JSON.stringify(tokenPayload))
+        setUser(tokenPayload)
         router.push("/")
       })
       .catch((error) => console.log(error))
