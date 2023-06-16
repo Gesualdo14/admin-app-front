@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Flex } from "@chakra-ui/react"
+import { Button, Flex, useDisclosure, useModalContext } from "@chakra-ui/react"
 import axios from "axios"
 import MyForm from "components/ui/forms/MyForm"
 import MyInput from "components/ui/inputs/MyInput"
@@ -13,6 +13,7 @@ import {
 import { env } from "~/env.mjs"
 
 const ClientForm = ({ clientId }: ClientFormProps) => {
+  const { onClose } = useModalContext()
   const router = useRouter()
   const onSubmit = async (data: Client, reset: any) => {
     const PARAMS = !!clientId ? `/${clientId}` : ""
@@ -25,8 +26,7 @@ const ClientForm = ({ clientId }: ClientFormProps) => {
       }
     )
     reset()
-    console.log({ res })
-    router.push("/clients")
+    onClose()
   }
 
   const onError = () => console.log("Errors")
@@ -60,14 +60,9 @@ const ClientForm = ({ clientId }: ClientFormProps) => {
         />
         <MyInput fieldName="document_value" label="Documento" mb={0} />
       </Flex>
-      <ButtonGroup>
-        <Button colorScheme="purple" type="submit">
-          {!!clientId ? "Guardar cambios" : "Crear"}
-        </Button>
-        <Button colorScheme="gray" onClick={() => router.back()}>
-          Volver
-        </Button>
-      </ButtonGroup>
+      <Button colorScheme="purple" type="submit" mb={2}>
+        {!!clientId ? "Guardar cambios" : "Crear"}
+      </Button>
     </MyForm>
   )
 }

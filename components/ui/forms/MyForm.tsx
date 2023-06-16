@@ -5,7 +5,7 @@ import { DefaultValues, FieldValues } from "react-hook-form/dist/types"
 import { FormProvider } from "react-hook-form"
 import { ReactNode } from "react"
 import { DevTool } from "@hookform/devtools"
-import { Flex, Spinner } from "@chakra-ui/react"
+import { Flex, Spinner, useDisclosure } from "@chakra-ui/react"
 
 interface Props {
   zodSchema: AnyZodObject
@@ -22,7 +22,6 @@ const MyForm = ({
   onError,
   children,
 }: Props) => {
-  console.log({ defaultValues })
   type EntityType = z.infer<typeof zodSchema>
   const methods = useForm<EntityType>({
     resolver: zodResolver(zodSchema),

@@ -14,18 +14,11 @@ import axios from "axios"
 import { useQuery } from "@tanstack/react-query"
 import SalesList from "components/entities/sales/SalesList"
 import AppHeader from "components/global/AppHeader"
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
+import SalesPanel from "components/entities/sales/SalesPanel"
+import ClientsPanel from "components/entities/clients/ClientsPanel"
 
 const Home: NextPage = () => {
-  const { data: sales, isLoading } = useQuery({
-    queryKey: ["sales"],
-    queryFn: async () => {
-      const res = await axios.get(`${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales`, {
-        withCredentials: true,
-      })
-      return res.data.data
-    },
-  })
-
   const router = useRouter()
   return (
     <>
@@ -36,27 +29,26 @@ const Home: NextPage = () => {
       </Head>
       <Container marginTop={8}>
         <AppHeader />
+
         <Card p={4}>
-          <Heading>Mis ventas</Heading>
-          {isLoading ? <Spinner /> : <SalesList sales={sales} />}
-          <ButtonGroup mt={8}>
-            <Button
-              colorScheme="blue"
-              onClick={() => {
-                router.push("/sales/new")
-              }}
-            >
-              Nueva venta
-            </Button>
-            <Button
-              colorScheme="purple"
-              onClick={() => {
-                router.push("/clients")
-              }}
-            >
-              Clientes
-            </Button>
-          </ButtonGroup>
+          <Tabs variant="enclosed" colorScheme="blue">
+            <TabList>
+              <Tab>💵 Ventas</Tab>
+              <Tab>🤝 Clientes</Tab>
+              <Tab>🛒 Productos</Tab>
+            </TabList>
+
+            <TabPanels>
+              <SalesPanel />
+              <ClientsPanel />
+              <TabPanel>
+                <p>two!</p>
+              </TabPanel>
+              <TabPanel>
+                <p>three!</p>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </Card>
       </Container>
     </>
