@@ -8,5 +8,8 @@ export interface MyInputProps<T> {
   flex?: number
   placeholder?: string
   mb?: number
+  size?: Sizes
   searchFn?: ((state: any) => void) | boolean
 }
+
+export type Sizes = "xs" | "sm" | "md" | "lg"

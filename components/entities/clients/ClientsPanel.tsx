@@ -5,26 +5,33 @@ import axios from "axios"
 import { env } from "~/env.mjs"
 import MyModal from "components/ui/modals/MyModal"
 import ClientForm from "./ClientForm"
+import SaleForm from "../sales/SaleForm"
+import { useState } from "react"
+import { ClientFromDB } from "schemas/ClientSchema"
 
 const ClientsPanel = () => {
-  const { data: clients, isLoading } = useQuery({
-    queryKey: ["clients"],
-    queryFn: async () => {
-      const res = await axios.get(
-        `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/clients`,
-        { withCredentials: true }
-      )
-      return res.data.data
-    },
-  })
-
-  if (isLoading) return <Spinner />
-
+  const [selectedClient, setSelectedClient] = useState<ClientFromDB | null>()
   return (
     <TabPanel p={0}>
-      <ClientsList clients={clients} />
-      <MyModal title="Nuevo cliente">
-        <ClientForm />
+      <ClientsList
+        selectedClientId={selectedClient?._id}
+        onClick={(c) => {
+          const valueToSet = c._id === selectedClient?._id ? null : c
+          setSelectedClient(valueToSet)
+        }}
+      />
+      <MyModal
+        title={(selectedClient ? "Editar " : "Nuevo ") + "cliente"}
+        mr={2}
+      >
+        <ClientForm clientId={selectedClient?._id} />
+      </MyModal>
+      <MyModal
+        title="Nueva venta"
+        colorScheme="green"
+        disableButton={!selectedClient}
+      >
+        <SaleForm clientId={selectedClient?._id} />
       </MyModal>
     </TabPanel>
   )

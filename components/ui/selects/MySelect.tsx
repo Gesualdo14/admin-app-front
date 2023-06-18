@@ -13,6 +13,7 @@ function MySelect<T>({ label, fieldName, flex = 3, options }: Props<T>) {
     formState: { errors },
     register,
   } = useFormContext()
+
   return (
     <FormControl flex={flex}>
       <FormLabel>{label}</FormLabel>

@@ -28,8 +28,6 @@ export const salePaymentMethodSchema = z.object({
 })
 
 export const saleSchema = z.object({
-  operation_date: z.date(),
-  client_document: z.string(),
   products: z.array(saleProductSchema),
   payment_methods: z.array(salePaymentMethodSchema),
 })
@@ -37,6 +35,12 @@ export const saleSchema = z.object({
 export type Sale = z.infer<typeof saleSchema>
 export type PaymentMethod = z.infer<typeof salePaymentMethodSchema>
 export type ProductForState = z.infer<typeof saleProductSchema>
+
+export interface SaleFromDB extends Sale {
+  _id: string
+  total_amount: number
+  client: string
+}
 
 export interface Product extends ProductForState {
   supplier_cost: number
@@ -49,4 +53,5 @@ export interface Product extends ProductForState {
 
 export interface ProductFormProps {
   saleId?: string
+  clientId?: string
 }

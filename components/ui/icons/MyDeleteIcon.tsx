@@ -13,9 +13,8 @@ function MyDeleteIcon<T>({ fieldName, index }: Props<T>) {
 
   return (
     <DeleteIcon
-      mb={2}
-      color={index > 0 ? "red.500" : "white"}
-      _hover={{ color: index > 0 ? "red.700" : "white", cursor: "pointer" }}
+      color={"red.500"}
+      _hover={{ color: "red.700", cursor: "pointer" }}
       onClick={() => remove(index)}
     />
   )

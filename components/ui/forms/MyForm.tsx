@@ -1,27 +1,28 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { AnyZodObject, z } from "zod"
+import { z } from "zod"
 import { DefaultValues, FieldValues } from "react-hook-form/dist/types"
 import { FormProvider } from "react-hook-form"
 import { ReactNode } from "react"
 import { DevTool } from "@hookform/devtools"
 import { Flex, Spinner, useDisclosure } from "@chakra-ui/react"
+import { defaultPM } from "../buttons/MyAdderButton"
 
-interface Props {
-  zodSchema: AnyZodObject
-  onSubmit: (data: any, reset: any) => void
+interface Props<T> {
+  zodSchema: z.Schema
+  onSubmit: (data: T, reset: any) => void
   onError: (data: FieldValues) => void
   children: ReactNode
   defaultValues?: DefaultValues<FieldValues>
 }
 
-const MyForm = ({
-  defaultValues = {},
+const MyForm = <T,>({
+  defaultValues,
   zodSchema,
   onSubmit,
   onError,
   children,
-}: Props) => {
+}: Props<T>) => {
   type EntityType = z.infer<typeof zodSchema>
   const methods = useForm<EntityType>({
     resolver: zodResolver(zodSchema),
@@ -44,7 +45,7 @@ const MyForm = ({
       >
         {children}
       </form>
-      {/* <DevTool control={methods.control} /> */}
+      <DevTool control={methods.control} />
     </FormProvider>
   )
 }

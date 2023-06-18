@@ -1,28 +1,28 @@
-import { Button, Spinner, TabPanel } from "@chakra-ui/react"
+import { TabPanel } from "@chakra-ui/react"
 import SalesList from "./SalesList"
-import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
-import { env } from "~/env.mjs"
+import MyModal from "components/ui/modals/MyModal"
+import { useState } from "react"
+import { SaleFromDB } from "schemas/SaleSchema"
+import SaleForm from "./SaleForm"
 
 const SalesPanel = () => {
-  const { data: sales, isLoading } = useQuery({
-    queryKey: ["sales"],
-    queryFn: async () => {
-      const res = await axios.get(`${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales`, {
-        withCredentials: true,
-      })
-      return res.data.data
-    },
-  })
-
-  if (isLoading) return <Spinner />
-
+  const [selectedSale, setSelectedSale] = useState<SaleFromDB | null>()
   return (
     <TabPanel p={0}>
-      <SalesList sales={sales} />
-      <Button colorScheme="blue" onClick={() => {}}>
-        Nueva venta
-      </Button>
+      <SalesList
+        onClick={(s) => {
+          const valueToSet = s._id === selectedSale?._id ? null : s
+          setSelectedSale(valueToSet)
+        }}
+        selectedSaleId={selectedSale?._id}
+      />
+      <MyModal
+        title="Editar venta"
+        colorScheme="green"
+        disableButton={!selectedSale}
+      >
+        <SaleForm saleId={selectedSale?._id} />
+      </MyModal>
     </TabPanel>
   )
 }

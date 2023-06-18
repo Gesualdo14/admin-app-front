@@ -1,45 +1,35 @@
-import { Card, Divider, Flex, Heading, Text } from "@chakra-ui/react"
+import { Divider, Flex, Heading, useModalContext } from "@chakra-ui/react"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { env } from "~/env.mjs"
-import { useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
 import getDateForInput from "helpers/getDateForInput"
 import { ProductFormProps, Sale, saleSchema } from "schemas/SaleSchema"
 import MyForm from "components/ui/forms/MyForm"
-import MyInput from "components/ui/inputs/MyInput"
-import ProductAdder from "./ProductAdder"
-import PaymentMethodAdder from "./PaymentMethodAdder"
-import MyAdderButton, {
-  defaultPM,
-  defaultProduct,
-} from "components/ui/buttons/MyAdderButton"
+import ProductAdder from "../products/ProductAdder"
+import PaymentMethodAdder from "../payment_methods/PaymentMethodAdder"
 import SaleFormButtons from "./SaleFormButtons"
+import MyModal from "components/ui/modals/MyModal"
+import ProductSearcher from "../products/ProductSearcher"
+import PaymentMethodForm from "../payment_methods/PaymentMethodForm"
 
-const SaleForm = ({ saleId }: ProductFormProps) => {
-  const [totalAmount, setTotalAmount] = useState(0)
-
-  const [foundClient, setFoundClient] = useState<{
-    _id: string
-    firstname: string
-  } | null>(null)
-
-  const router = useRouter()
+const SaleForm = ({ saleId, clientId }: ProductFormProps) => {
+  const { onClose } = useModalContext()
 
   const onSubmit = async (data: Sale, reset: any) => {
-    if (!foundClient) return
+    console.log("HOLI")
+    if (!clientId) return
     const PARAMS = !!saleId ? `/${saleId}` : ""
     const res = await axios(
       `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales${PARAMS}`,
       {
         method: !!saleId ? "PUT" : "POST",
-        data: { ...data, client: foundClient._id, total_amount: totalAmount },
+        data: { ...data, client: clientId },
         withCredentials: true,
       }
     )
     reset()
-    console.log({ res })
-    router.push("/")
+    onClose()
   }
 
   const onError = (errors: any) => console.log(errors)
@@ -47,11 +37,7 @@ const SaleForm = ({ saleId }: ProductFormProps) => {
   const setDefaultValues = async () => {
     console.log({ saleId })
     if (!saleId) {
-      return {
-        operation_date: getDateForInput(),
-        payment_methods: [defaultPM],
-        products: [defaultProduct],
-      }
+      return { operation_date: getDateForInput() }
     }
 
     const { data } = await axios.get(
@@ -73,40 +59,19 @@ const SaleForm = ({ saleId }: ProductFormProps) => {
         zodSchema={saleSchema}
         defaultValues={setDefaultValues}
       >
-        <Flex gap={3} alignItems="center">
-          <MyInput<Sale>
-            fieldName="client_document"
-            label="Documento del cliente"
-            searchFn={async (document) => {
-              if (!document) return
-              const { data } = await axios.get(
-                `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/clients/document/${document}`,
-                { withCredentials: true }
-              )
-              setFoundClient(data.data)
-            }}
-          />
-        </Flex>
-        {!!foundClient && (
-          <Card mb={5} p={3}>
-            <Text>{foundClient?.firstname}</Text>
-          </Card>
-        )}
-        <MyInput<Sale>
-          fieldName="operation_date"
-          label="Fecha de la operación"
-          type="date"
-          valueAsDate
-        />
-        <Flex alignItems="center" justifyContent={"space-between"} mt="8">
+        <Flex alignItems="center" justifyContent={"space-between"}>
           <Heading size="lg">Productos</Heading>
-          <MyAdderButton fieldName="products" />
+          <MyModal title="Elegir productos" buttonText="Agregar" size="xs">
+            <ProductSearcher />
+          </MyModal>
         </Flex>
         <Divider mb="3" mt="2" />
         <ProductAdder fieldName="products" />
         <Flex alignItems="center" justifyContent={"space-between"} mt="8">
           <Heading size="lg">Forma de pago</Heading>
-          <MyAdderButton fieldName="payment_methods" />
+          <MyModal title="Elegir medio de pago" buttonText="Agregar" size="xs">
+            <PaymentMethodForm />
+          </MyModal>
         </Flex>
         <Divider mb="3" mt="2" />
         <PaymentMethodAdder fieldName="payment_methods" />

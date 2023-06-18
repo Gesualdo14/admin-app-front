@@ -1,50 +1,52 @@
-import { Card, Flex, Text } from "@chakra-ui/react"
+import { Card, Flex, Spinner, Text } from "@chakra-ui/react"
+import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
 import { useRouter } from "next/router"
-import { ClientListProps } from "schemas/ClientSchema"
+import { ClientFromDB } from "schemas/ClientSchema"
+import { env } from "~/env.mjs"
+import ClientItem from "./ClientItem"
 
-const ClientsList = ({ clients }: ClientListProps) => {
+interface Props {
+  onClick: (client: ClientFromDB) => void
+  selectedClientId: string | undefined
+}
+
+const ClientsList = ({ onClick, selectedClientId }: Props) => {
+  const { data: clients, isLoading } = useQuery<ClientFromDB[]>({
+    queryKey: ["clients"],
+    queryFn: async () => {
+      const res = await axios.get(
+        `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/clients`,
+        { withCredentials: true }
+      )
+      return res.data.data
+    },
+  })
+
   const router = useRouter()
+  if (isLoading) return <Spinner />
+  if (!clients) return <Text mb={5}>No hay clientes para mostrar</Text>
+
   return (
-    <>
-      <Flex
-        flexDirection="column"
-        p={1}
-        gap={2}
-        my={4}
-        maxHeight="40vh"
-        overflowY="scroll"
-      >
-        {clients
-          .sort((a, b) => (b.sales?.amount || 0) - (a.sales?.amount || 0))
-          .map((c) => (
-            <Card
-              key={c._id}
-              py={2}
-              px={4}
-              cursor="pointer"
-              _hover={{
-                backgroundColor: "gray.200",
-                color: "#222",
-                transition:
-                  "0.2s background-color ease-out, 0.2s color ease-out",
-              }}
-              onClick={() => router.push(`/clients/${c._id}`)}
-              flexDir="row"
-              justifyContent="space-between"
-            >
-              <Text>{c.firstname}</Text>
-              <Text color="green">$ {c.sales?.amount?.toFixed(2) || 0}</Text>
-            </Card>
-          ))}
-      </Flex>
-      <style jsx>
-        {`
-          .chakra-card:hover {
-            background-color: red !important;
-          }
-        `}
-      </style>
-    </>
+    <Flex
+      flexDirection="column"
+      p={1}
+      gap={2}
+      my={4}
+      maxHeight="40vh"
+      overflowY="scroll"
+    >
+      {clients
+        .sort((a, b) => (b.sales?.amount || 0) - (a.sales?.amount || 0))
+        .map((c) => (
+          <ClientItem
+            key={c._id}
+            client={c}
+            onClick={onClick}
+            selected={c._id === selectedClientId}
+          />
+        ))}
+    </Flex>
   )
 }
 

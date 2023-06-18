@@ -17,6 +17,7 @@ import AppHeader from "components/global/AppHeader"
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
 import SalesPanel from "components/entities/sales/SalesPanel"
 import ClientsPanel from "components/entities/clients/ClientsPanel"
+import ProductsPanel from "components/entities/products/ProductsPanel"
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -41,12 +42,7 @@ const Home: NextPage = () => {
             <TabPanels>
               <SalesPanel />
               <ClientsPanel />
-              <TabPanel>
-                <p>two!</p>
-              </TabPanel>
-              <TabPanel>
-                <p>three!</p>
-              </TabPanel>
+              <ProductsPanel />
             </TabPanels>
           </Tabs>
         </Card>

@@ -21,6 +21,7 @@ function MyInput<T>({
   type = "text",
   placeholder,
   mb = 5,
+  size,
   searchFn = false,
 }: MyInputProps<T>) {
   const {
@@ -50,6 +51,7 @@ function MyInput<T>({
           />
         )}
         <Input
+          size={size}
           type={type}
           placeholder={placeholder || label}
           {...register(fieldName as string, registerOptions)}
