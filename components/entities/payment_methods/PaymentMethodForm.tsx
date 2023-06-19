@@ -12,9 +12,8 @@ import { useFieldArray, useFormContext } from "react-hook-form"
 
 const PaymentMethodForm = () => {
   const { onClose } = useModalContext()
-  const { watch, control } = useFormContext()
+  const { control } = useFormContext()
   const { append } = useFieldArray({ control, name: "payment_methods" })
-  const products = watch("products")
 
   return (
     <MyForm<PaymentMethod>
