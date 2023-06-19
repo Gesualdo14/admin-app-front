@@ -19,7 +19,7 @@ const ClientsList = ({ onClick, selectedClientId }: Props) => {
         `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/clients`,
         { withCredentials: true }
       )
-      return res.data.data
+      return res?.data?.data
     },
   })
 

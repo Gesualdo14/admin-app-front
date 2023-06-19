@@ -39,6 +39,7 @@ const ProductsList = ({ searchText, onClick, selectedProducts }: Props) => {
     >
       {products.map((p) => (
         <ProductItem
+          key={p._id}
           product={p}
           onClick={onClick}
           selected={selectedProducts?.includes(p)}

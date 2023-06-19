@@ -20,6 +20,7 @@ function ProductAdder({ fieldName }: Props) {
     <Flex flexDir="column" alignItems="flex-start">
       {products.map((product: Product, index: number) => (
         <Flex
+          key={index}
           gap={3}
           alignItems="center"
           justifyContent="space-between"
