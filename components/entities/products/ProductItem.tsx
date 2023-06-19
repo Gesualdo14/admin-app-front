@@ -14,8 +14,8 @@ const ProductItem = ({ product, onClick, selected }: Props) => {
       py={2}
       px={4}
       cursor="pointer"
-      bg={selected ? "blue.400" : "white"}
-      color={selected ? "white" : "black"}
+      bg={selected ? "gray.200" : "white"}
+      color="black"
       _hover={{
         backgroundColor: "gray.200",
         color: "#222",

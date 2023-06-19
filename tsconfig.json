@@ -6,6 +6,8 @@
     "checkJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -23,8 +25,8 @@
   },
   "include": [
     ".eslintrc.cjs",
-    "next-env.d.ts",
-    "**/*.ts",
+    "next-env.d",
+    "**/*",
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs"

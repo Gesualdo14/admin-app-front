@@ -1,6 +1,5 @@
 import { Divider, Flex, Heading, useModalContext } from "@chakra-ui/react"
 import axios from "axios"
-import { useRouter } from "next/router"
 import { env } from "~/env.mjs"
 import "react-datepicker/dist/react-datepicker.css"
 import getDateForInput from "helpers/getDateForInput"
@@ -16,18 +15,14 @@ import PaymentMethodForm from "../payment_methods/PaymentMethodForm"
 const SaleForm = ({ saleId, clientId }: ProductFormProps) => {
   const { onClose } = useModalContext()
 
-  const onSubmit = async (data: Sale, reset: any) => {
-    console.log("HOLI")
+  const onSubmit = async (data: Sale, reset: any): Promise<void> => {
     if (!clientId) return
     const PARAMS = !!saleId ? `/${saleId}` : ""
-    const res = await axios(
-      `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales${PARAMS}`,
-      {
-        method: !!saleId ? "PUT" : "POST",
-        data: { ...data, client: clientId },
-        withCredentials: true,
-      }
-    )
+    await axios(`${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales${PARAMS}`, {
+      method: !!saleId ? "PUT" : "POST",
+      data: { ...data, client: clientId },
+      withCredentials: true,
+    })
     reset()
     onClose()
   }
