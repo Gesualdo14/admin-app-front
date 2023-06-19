@@ -1,18 +1,7 @@
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  Container,
-  Heading,
-  Spinner,
-} from "@chakra-ui/react"
+import { Card, Container } from "@chakra-ui/react"
 import { type NextPage } from "next"
 import Head from "next/head"
-import { env } from "~/env.mjs"
 import { useRouter } from "next/router"
-import axios from "axios"
-import { useQuery } from "@tanstack/react-query"
-import SalesList from "components/entities/sales/SalesList"
 import AppHeader from "components/global/AppHeader"
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
 import SalesPanel from "components/entities/sales/SalesPanel"

@@ -1,4 +1,4 @@
-import { Card, Flex, Spinner, Text } from "@chakra-ui/react"
+import { Flex, Spinner, Text } from "@chakra-ui/react"
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { useRouter } from "next/router"
