@@ -1,15 +1,13 @@
 import { Card, Container } from "@chakra-ui/react"
 import { type NextPage } from "next"
 import Head from "next/head"
-import { useRouter } from "next/router"
 import AppHeader from "components/global/AppHeader"
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
+import { Tabs, TabList, TabPanels, Tab } from "@chakra-ui/react"
 import SalesPanel from "components/entities/sales/SalesPanel"
 import ClientsPanel from "components/entities/clients/ClientsPanel"
 import ProductsPanel from "components/entities/products/ProductsPanel"
 
 const Home: NextPage = () => {
-  const router = useRouter()
   return (
     <>
       <Head>
