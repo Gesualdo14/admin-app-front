@@ -4,12 +4,8 @@ import MyForm from "components/ui/forms/MyForm"
 import MyInput from "components/ui/inputs/MyInput"
 import MySelect from "components/ui/selects/MySelect"
 import { FieldValues } from "react-hook-form"
-import {
-  Client,
-  ClientFormProps,
-  ClientSchema,
-  DOC_TYPES,
-} from "schemas/ClientSchema"
+import type { Client, ClientFormProps } from "schemas/ClientSchema"
+import { ClientSchema, DOC_TYPES } from "schemas/ClientSchema"
 import { env } from "~/env.mjs"
 
 const ClientForm = ({ clientId }: ClientFormProps) => {
