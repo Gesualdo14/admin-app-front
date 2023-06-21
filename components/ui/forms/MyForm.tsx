@@ -10,7 +10,7 @@ import { defaultPM } from "../buttons/MyAdderButton"
 
 interface Props<T> {
   zodSchema: z.Schema
-  onSubmit: (data: T, reset: any) => Promise<any>
+  onSubmit: (data: T, reset: any) => Promise<void>
   onError: (data: FieldValues) => void
   children: ReactNode
   defaultValues?: DefaultValues<FieldValues>
