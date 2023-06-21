@@ -11,21 +11,20 @@ import { env } from "~/env.mjs"
 const ClientForm = ({ clientId }: ClientFormProps) => {
   const { onClose } = useModalContext()
 
-  const onSubmit = async (data: Client, reset: any) => {
+  const onSubmit = async (data: Client, reset: () => void) => {
     const PARAMS = !!clientId ? `/${clientId}` : ""
-    const res = await axios(
-      `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/clients${PARAMS}`,
-      {
-        method: !!clientId ? "PUT" : "POST",
-        data,
-        withCredentials: true,
-      }
-    )
+    await axios(`${env.NEXT_PUBLIC_BACKEND_BASE_URL}/clients${PARAMS}`, {
+      method: !!clientId ? "PUT" : "POST",
+      data,
+      withCredentials: true,
+    })
     reset()
     onClose()
   }
 
-  const onError = (errors: FieldValues) => {}
+  const onError = (errors: FieldValues) => {
+    console.log({ errors })
+  }
 
   const setDefaultValues = async () => {
     if (!clientId) return { phoneCode: "593" }
