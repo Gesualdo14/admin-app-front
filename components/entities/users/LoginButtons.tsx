@@ -2,11 +2,12 @@ import { CheckIcon } from "@chakra-ui/icons"
 import { Button, ButtonGroup, useToast } from "@chakra-ui/react"
 import axios from "axios"
 import { useFormContext } from "react-hook-form"
+import { Client } from "schemas/ClientSchema"
 import { env } from "~/env.mjs"
 
 const LoginButtons = () => {
   const toast = useToast()
-  const { getValues } = useFormContext()
+  const { getValues } = useFormContext<Client>()
   return (
     <ButtonGroup marginTop={8} justifyContent="center">
       <Button type="submit" colorScheme="purple">

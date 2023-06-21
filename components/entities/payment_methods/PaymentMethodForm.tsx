@@ -1,4 +1,4 @@
-import { Button, Flex, useModalContext } from "@chakra-ui/react"
+import { Button, Flex } from "@chakra-ui/react"
 import MyForm from "components/ui/forms/MyForm"
 import MyInput from "components/ui/inputs/MyInput"
 import MySelect from "components/ui/selects/MySelect"
@@ -10,8 +10,7 @@ import {
 } from "schemas/SaleSchema"
 import { useFieldArray, useFormContext } from "react-hook-form"
 
-const PaymentMethodForm = () => {
-  const { onClose } = useModalContext()
+const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
   const { control } = useFormContext()
   const { append } = useFieldArray({ control, name: "payment_methods" })
 
@@ -19,9 +18,8 @@ const PaymentMethodForm = () => {
     <MyForm<PaymentMethod>
       zodSchema={salePaymentMethodSchema}
       onSubmit={(data) => {
-        console.log("HOLA")
         append(data)
-        onClose()
+        onClose && onClose()
       }}
       onError={(data) => console.log({ data })}
       defaultValues={{

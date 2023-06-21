@@ -7,10 +7,8 @@ import {
   ModalCloseButton,
   useDisclosure,
   Button,
-  ThemingProps,
 } from "@chakra-ui/react"
-import { ThemeColorDescriptor } from "next/dist/lib/metadata/types/metadata-types"
-import { ReactNode } from "react"
+import { ReactElement, Children, cloneElement } from "react"
 import { Sizes } from "schemas/UiSchemas"
 
 interface Props {
@@ -18,7 +16,7 @@ interface Props {
   buttonText?: string
   disableButton?: boolean
   size?: Sizes
-  children: ReactNode
+  children: ReactElement
   colorScheme?: string
   mr?: number
 }
@@ -33,6 +31,14 @@ const MyModal = ({
   mr = 0,
 }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const renderChildren = () => {
+    return Children.map(children, (child) => {
+      return cloneElement(child as ReactElement, {
+        onClose: onClose,
+      })
+    })
+  }
   return (
     <>
       <Button
@@ -50,7 +56,7 @@ const MyModal = ({
         <ModalContent>
           <ModalHeader>{title}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{children}</ModalBody>
+          <ModalBody>{renderChildren()}</ModalBody>
         </ModalContent>
       </Modal>
     </>
