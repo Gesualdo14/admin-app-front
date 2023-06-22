@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { ClientFromDB } from "./ClientSchema"
 
 export const PAYMENT_METHOD_TYPES = [
   "Sin utilización Sist. Financiero",
@@ -39,7 +40,7 @@ export type ProductForState = z.infer<typeof saleProductSchema>
 export interface SaleFromDB extends Sale {
   _id: string
   total_amount: number
-  client: string
+  client: ClientFromDB
 }
 
 export interface Product extends ProductForState {

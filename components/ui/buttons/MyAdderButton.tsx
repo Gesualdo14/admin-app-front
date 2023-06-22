@@ -29,11 +29,11 @@ interface Props {
 }
 
 const MyAdderButton = ({ fieldName }: Props) => {
-  const { getValues, control } = useFormContext()
+  const { control } = useFormContext()
   const { append } = useFieldArray({ control, name: fieldName })
 
   const defaultValue = DEFAULT_VALUES[fieldName]
-  console.log({ values: getValues() })
+
   return (
     <Button
       size="xs"

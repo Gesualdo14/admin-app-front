@@ -1,4 +1,4 @@
-import { Button, Flex } from "@chakra-ui/react"
+import { Flex } from "@chakra-ui/react"
 import MyForm from "components/ui/forms/MyForm"
 import MyInput from "components/ui/inputs/MyInput"
 import MySelect from "components/ui/selects/MySelect"
@@ -9,6 +9,7 @@ import {
   salePaymentMethodSchema,
 } from "schemas/SaleSchema"
 import { useFieldArray, useFormContext } from "react-hook-form"
+import PMFormButtons from "./PMFormButtons"
 
 const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
   const { control } = useFormContext()
@@ -17,10 +18,7 @@ const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
   return (
     <MyForm<PaymentMethod>
       zodSchema={salePaymentMethodSchema}
-      onSubmit={(data) => {
-        append(data)
-        onClose && onClose()
-      }}
+      onSubmit={() => {}}
       onError={(data) => console.log({ data })}
       defaultValues={{
         method: "Sin utilización Sist. Financiero",
@@ -52,8 +50,8 @@ const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
           label="Período"
           options={Object.keys(TIME_UNITS.Enum)}
         />
-        <Button type="submit">Agregar</Button>
       </Flex>
+      <PMFormButtons append={append} onClose={onClose} />
     </MyForm>
   )
 }

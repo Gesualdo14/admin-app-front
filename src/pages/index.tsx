@@ -6,6 +6,7 @@ import { Tabs, TabList, TabPanels, Tab } from "@chakra-ui/react"
 import SalesPanel from "components/entities/sales/SalesPanel"
 import ClientsPanel from "components/entities/clients/ClientsPanel"
 import ProductsPanel from "components/entities/products/ProductsPanel"
+import ReportPanel from "components/entities/sales/ReportPanel"
 
 const Home: NextPage = () => {
   return (
@@ -21,12 +22,14 @@ const Home: NextPage = () => {
         <Card p={4}>
           <Tabs variant="enclosed" colorScheme="blue">
             <TabList>
+              <Tab>📈 Informes</Tab>
               <Tab>💵 Ventas</Tab>
               <Tab>🤝 Clientes</Tab>
               <Tab>🛒 Productos</Tab>
             </TabList>
 
             <TabPanels>
+              <ReportPanel />
               <SalesPanel />
               <ClientsPanel />
               <ProductsPanel />

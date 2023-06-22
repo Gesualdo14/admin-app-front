@@ -23,7 +23,7 @@ const SalesList = ({ onClick, selectedSaleId }: Props) => {
   if (isLoading) return <Spinner />
 
   if (!sales) return <Text mb={5}>No hay ventas para mostrar</Text>
-
+  console.log({ sales })
   return (
     <Flex
       flexDirection="column"
@@ -33,16 +33,14 @@ const SalesList = ({ onClick, selectedSaleId }: Props) => {
       maxHeight="40vh"
       overflowY="scroll"
     >
-      {sales
-        .sort((a, b) => (b?.total_amount || 0) - (a?.total_amount || 0))
-        .map((s) => (
-          <SaleItem
-            sale={s}
-            key={s._id}
-            onClick={onClick}
-            selected={s._id === selectedSaleId}
-          />
-        ))}
+      {sales.map((s) => (
+        <SaleItem
+          sale={s}
+          key={s._id}
+          onClick={onClick}
+          selected={s._id === selectedSaleId}
+        />
+      ))}
     </Flex>
   )
 }

@@ -28,7 +28,7 @@ const SaleItem = ({ sale, onClick, selected }: Props) => {
       flexDir="row"
       justifyContent="space-between"
     >
-      <Text>{sale.client}</Text>
+      <Text>{sale.client.firstname}</Text>
       <Text>$ {sale.total_amount?.toFixed(2) || 0}</Text>
     </Card>
   )

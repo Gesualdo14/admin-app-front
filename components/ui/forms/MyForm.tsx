@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { DefaultValues, FieldValues } from "react-hook-form/dist/types"
 import { FormProvider } from "react-hook-form"
-import { ReactNode } from "react"
+import { Children, ReactNode, cloneElement } from "react"
 import { DevTool } from "@hookform/devtools"
 import { Flex, Spinner } from "@chakra-ui/react"
 
@@ -34,15 +34,29 @@ const MyForm = <T,>({
         <Spinner alignSelf="center" colorScheme="purple" color="purple" />
       </Flex>
     )
+
+  const renderChildren = () => {
+    return Children.map(children, (child: any) => {
+      let props = {}
+      console.log({ child: child?.type?.name })
+      if ("name" in child?.type) {
+        props = {
+          getValues: methods.getValues,
+          onSubmit,
+          reset: methods.reset,
+        }
+      }
+      return cloneElement(child, props)
+    })
+  }
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={methods.handleSubmit(
-          (data) => onSubmit(data, methods.reset),
-          onError
-        )}
+        onSubmit={methods.handleSubmit((data) => {
+          onSubmit(data, methods.reset)
+        }, onError)}
       >
-        {children}
+        {renderChildren()}
       </form>
       <DevTool control={methods.control} />
     </FormProvider>

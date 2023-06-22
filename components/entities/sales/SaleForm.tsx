@@ -22,6 +22,7 @@ const SaleForm = ({ saleId, clientId }: ProductFormProps) => {
   const { onClose } = useModalContext()
 
   const onSubmit = async (data: Sale, reset: any): Promise<void> => {
+    console.log("CREANDO VENTA")
     if (!clientId) return
     const PARAMS = !!saleId ? `/${saleId}` : ""
     await axios<any, AxiosResponse<ApiResponse<SaleFromDB>>>(
