@@ -1,23 +1,31 @@
 import { Button, Flex, useModalContext } from "@chakra-ui/react"
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 import MyForm from "components/ui/forms/MyForm"
 import MyInput from "components/ui/inputs/MyInput"
 import MySelect from "components/ui/selects/MySelect"
 import type { FieldValues } from "react-hook-form"
-import type { Client, ClientFormProps } from "schemas/ClientSchema"
+import { ApiResponse } from "schemas/ApiSchema"
+import type {
+  Client,
+  ClientFormProps,
+  ClientFromDB,
+} from "schemas/ClientSchema"
 import { ClientSchema, DOC_TYPES } from "schemas/ClientSchema"
 import { env } from "~/env.mjs"
 
 const ClientForm = ({ clientId }: ClientFormProps) => {
   const { onClose } = useModalContext()
 
-  const onSubmit = async (data: Client, reset: () => void) => {
+  const onSubmit = async (state: Client, reset: () => void) => {
     const PARAMS = !!clientId ? `/${clientId}` : ""
-    await axios(`${env.NEXT_PUBLIC_BACKEND_BASE_URL}/clients${PARAMS}`, {
-      method: !!clientId ? "PUT" : "POST",
-      data,
-      withCredentials: true,
-    })
+    await axios<any, AxiosResponse<ApiResponse<ClientFromDB>>>(
+      `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/clients${PARAMS}`,
+      {
+        method: !!clientId ? "PUT" : "POST",
+        data: state,
+        withCredentials: true,
+      }
+    )
     reset()
     onClose()
   }

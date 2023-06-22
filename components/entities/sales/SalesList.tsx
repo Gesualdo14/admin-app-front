@@ -1,7 +1,6 @@
-import { Card, Flex, Spinner, Text } from "@chakra-ui/react"
+import { Flex, Spinner, Text } from "@chakra-ui/react"
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
-import { useRouter } from "next/router"
 import { SaleFromDB } from "schemas/SaleSchema"
 import { env } from "~/env.mjs"
 import SaleItem from "./SaleItem"
@@ -20,8 +19,6 @@ const SalesList = ({ onClick, selectedSaleId }: Props) => {
       return res.data.data
     },
   })
-
-  const router = useRouter()
 
   if (isLoading) return <Spinner />
 

@@ -5,8 +5,7 @@ import { DefaultValues, FieldValues } from "react-hook-form/dist/types"
 import { FormProvider } from "react-hook-form"
 import { ReactNode } from "react"
 import { DevTool } from "@hookform/devtools"
-import { Flex, Spinner, useDisclosure } from "@chakra-ui/react"
-import { defaultPM } from "../buttons/MyAdderButton"
+import { Flex, Spinner } from "@chakra-ui/react"
 
 interface Props<T> {
   zodSchema: z.Schema

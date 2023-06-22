@@ -1,9 +1,14 @@
 import { Divider, Flex, Heading, useModalContext } from "@chakra-ui/react"
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 import { env } from "~/env.mjs"
 import "react-datepicker/dist/react-datepicker.css"
 import getDateForInput from "helpers/getDateForInput"
-import { ProductFormProps, Sale, saleSchema } from "schemas/SaleSchema"
+import {
+  ProductFormProps,
+  Sale,
+  SaleFromDB,
+  saleSchema,
+} from "schemas/SaleSchema"
 import MyForm from "components/ui/forms/MyForm"
 import ProductAdder from "../products/ProductAdder"
 import PaymentMethodAdder from "../payment_methods/PaymentMethodAdder"
@@ -11,6 +16,7 @@ import SaleFormButtons from "./SaleFormButtons"
 import MyModal from "components/ui/modals/MyModal"
 import ProductSearcher from "../products/ProductSearcher"
 import PaymentMethodForm from "../payment_methods/PaymentMethodForm"
+import { ApiResponse } from "schemas/ApiSchema"
 
 const SaleForm = ({ saleId, clientId }: ProductFormProps) => {
   const { onClose } = useModalContext()
@@ -18,11 +24,14 @@ const SaleForm = ({ saleId, clientId }: ProductFormProps) => {
   const onSubmit = async (data: Sale, reset: any): Promise<void> => {
     if (!clientId) return
     const PARAMS = !!saleId ? `/${saleId}` : ""
-    await axios(`${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales${PARAMS}`, {
-      method: !!saleId ? "PUT" : "POST",
-      data: { ...data, client: clientId },
-      withCredentials: true,
-    })
+    await axios<any, AxiosResponse<ApiResponse<SaleFromDB>>>(
+      `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales${PARAMS}`,
+      {
+        method: !!saleId ? "PUT" : "POST",
+        data: { ...data, client: clientId },
+        withCredentials: true,
+      }
+    )
     reset()
     onClose()
   }
