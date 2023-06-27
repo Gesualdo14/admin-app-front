@@ -9,10 +9,7 @@ interface Props<T> {
 }
 
 function MySelect<T>({ label, fieldName, flex = 3, options }: Props<T>) {
-  const {
-    formState: { errors },
-    register,
-  } = useFormContext()
+  const { register } = useFormContext()
 
   return (
     <FormControl flex={flex}>
