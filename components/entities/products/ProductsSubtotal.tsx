@@ -1,4 +1,3 @@
-import React from "react"
 import { useFormContext } from "react-hook-form"
 import { Divider, Flex, Text } from "@chakra-ui/react"
 import { ProductForState } from "schemas/SaleSchema"

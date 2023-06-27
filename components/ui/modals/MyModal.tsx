@@ -8,7 +8,7 @@ import {
   useDisclosure,
   Button,
 } from "@chakra-ui/react"
-import { ReactElement, Children, cloneElement } from "react"
+import { ReactElement } from "react"
 import { Sizes } from "schemas/UiSchemas"
 
 interface Props {

@@ -1,5 +1,4 @@
 import { DeleteIcon } from "@chakra-ui/icons"
-import React from "react"
 import { useFieldArray, useFormContext } from "react-hook-form"
 
 interface Props<T> {

@@ -28,7 +28,6 @@ function MyInput<T>({
     getValues,
     formState: { errors },
     register,
-    watch,
   } = useFormContext()
 
   const handleSearch = () => {
