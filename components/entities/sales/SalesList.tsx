@@ -6,24 +6,38 @@ import { env } from "~/env.mjs"
 import SaleItem from "./SaleItem"
 
 interface Props {
+  selectedMonth: number | null
+  selectedYear: number | null
   onClick: (client: SaleFromDB) => void
   selectedSaleId: string | undefined
 }
-const SalesList = ({ onClick, selectedSaleId }: Props) => {
+const SalesList = ({
+  onClick,
+  selectedMonth,
+  selectedYear,
+  selectedSaleId,
+}: Props) => {
+  const PARAMS = selectedMonth
+    ? `?month=${selectedMonth}&year=${selectedYear}`
+    : ""
   const { data: sales, isLoading } = useQuery<SaleFromDB[]>({
-    queryKey: ["sales"],
+    queryKey: ["sales", selectedMonth],
     queryFn: async () => {
-      const res = await axios.get(`${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales`, {
-        withCredentials: true,
-      })
+      const res = await axios.get(
+        `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales${PARAMS}`,
+        {
+          withCredentials: true,
+        }
+      )
       return res.data.data
     },
+    refetchOnWindowFocus: true,
   })
 
   if (isLoading) return <Spinner />
 
   if (!sales) return <Text mb={5}>No hay ventas para mostrar</Text>
-  console.log({ sales })
+
   return (
     <Flex
       flexDirection="column"
