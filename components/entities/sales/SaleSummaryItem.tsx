@@ -28,22 +28,15 @@ const SaleSummaryItem = ({
         setSelectedMonth(monthToSet)
         setSelectedYear(yearToSet)
       }}
-      color={selected ? "white" : "black"}
-      bg={selected ? "green.400" : "white"}
+      bg={selected ? "gray.100" : "white"}
       _hover={{
         cursor: "pointer",
-        backgroundColor: "green.400",
-        color: "white",
+        backgroundColor: "gray.100",
       }}
     >
       <Flex flexDir="column" alignItems="center">
         <Text>{getMonthName(period._id.month - 1)}</Text>
-        <Text
-          color={selected ? "white" : "green.400"}
-          _hover={{ color: "white" }}
-        >
-          ${period.sales.toFixed(2)}
-        </Text>
+        <Text color="green.400">${period.sales.toFixed(2)}</Text>
       </Flex>
     </Card>
   )

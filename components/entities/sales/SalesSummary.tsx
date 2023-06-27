@@ -31,24 +31,26 @@ const SalesSummary = ({
     },
   })
 
-  if (isLoading) return <Spinner />
-
-  if (!periods) return <Text mb={5}>No hay ventas para mostrar</Text>
-
   console.log({ periods })
 
   return (
-    <Flex p={1} gap={2} my={4} maxHeight="40vh" overflowY="scroll">
-      {periods.map((p: any) => (
-        <SaleSummaryItem
-          period={p}
-          selected={
-            selectedMonth === p._id.month && selectedYear === p._id.year
-          }
-          setSelectedMonth={setSelectedMonth}
-          setSelectedYear={setSelectedYear}
-        />
-      ))}
+    <Flex flexDir="column">
+      {isLoading && <Spinner alignSelf="center" mt={10} />}
+      {!periods && <Text mb={5}>No hay ventas para mostrar</Text>}
+      {periods && (
+        <Flex p={1} gap={2} mt={4}>
+          {periods.map((p: any) => (
+            <SaleSummaryItem
+              period={p}
+              selected={
+                selectedMonth === p._id.month && selectedYear === p._id.year
+              }
+              setSelectedMonth={setSelectedMonth}
+              setSelectedYear={setSelectedYear}
+            />
+          ))}
+        </Flex>
+      )}
     </Flex>
   )
 }

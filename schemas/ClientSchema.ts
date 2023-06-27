@@ -18,6 +18,7 @@ export const ClientSchema = z
     document_value: z
       .string()
       .min(4, "El documento debe tener al menos 4 caracteres"),
+    file: z.any(),
   })
   .refine(
     ({ phoneCode, phoneNumber }) => {
@@ -43,4 +44,5 @@ export interface ClientListProps {
 }
 export interface ClientFormProps {
   clientId?: string
+  refetch?: () => void
 }

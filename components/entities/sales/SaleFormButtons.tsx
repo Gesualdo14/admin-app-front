@@ -1,5 +1,6 @@
 import { Button, ButtonGroup } from "@chakra-ui/react"
 import { useRouter } from "next/router"
+import { useFormContext } from "react-hook-form"
 
 interface Props {
   saleId: string | undefined
@@ -8,7 +9,8 @@ interface Props {
   reset?: () => void
 }
 
-const SaleFormButtons = ({ saleId, getValues, onSubmit, reset }: Props) => {
+const SaleFormButtons = ({ saleId, onSubmit }: Props) => {
+  const { getValues, reset } = useFormContext()
   const router = useRouter()
 
   return (

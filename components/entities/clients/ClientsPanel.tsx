@@ -1,4 +1,4 @@
-import { TabPanel } from "@chakra-ui/react"
+import { Flex, TabPanel } from "@chakra-ui/react"
 import ClientsList from "./ClientsList"
 import MyModal from "components/ui/modals/MyModal"
 import ClientForm from "./ClientForm"
@@ -16,20 +16,29 @@ const ClientsPanel = () => {
           const valueToSet = c._id === selectedClient?._id ? null : c
           setSelectedClient(valueToSet)
         }}
-      />
-      <MyModal
-        title={(selectedClient ? "Editar " : "Nuevo ") + "cliente"}
-        mr={2}
       >
-        <ClientForm clientId={selectedClient?._id} />
-      </MyModal>
-      <MyModal
-        title="Nueva venta"
-        colorScheme="green"
-        disableButton={!selectedClient}
-      >
-        <SaleForm clientId={selectedClient?._id} />
-      </MyModal>
+        {({ refetch }) => (
+          <Flex>
+            <MyModal
+              title={(selectedClient ? "Editar " : "Nuevo ") + "cliente"}
+              mr={2}
+            >
+              {() => (
+                <ClientForm clientId={selectedClient?._id} refetch={refetch} />
+              )}
+            </MyModal>
+            <MyModal
+              title="Nueva venta"
+              colorScheme="green"
+              disableButton={!selectedClient}
+            >
+              {() => (
+                <SaleForm clientId={selectedClient?._id} refetch={refetch} />
+              )}
+            </MyModal>
+          </Flex>
+        )}
+      </ClientsList>
     </TabPanel>
   )
 }

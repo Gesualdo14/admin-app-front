@@ -52,7 +52,8 @@ export interface Product extends ProductForState {
   unit_price: number
 }
 
-export interface ProductFormProps {
+export interface SaleFormProps {
   saleId?: string
   clientId?: string
+  refetch?: () => void
 }

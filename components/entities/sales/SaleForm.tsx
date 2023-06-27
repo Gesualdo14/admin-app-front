@@ -3,12 +3,7 @@ import axios, { AxiosResponse } from "axios"
 import { env } from "~/env.mjs"
 import "react-datepicker/dist/react-datepicker.css"
 import getDateForInput from "helpers/getDateForInput"
-import {
-  ProductFormProps,
-  Sale,
-  SaleFromDB,
-  saleSchema,
-} from "schemas/SaleSchema"
+import { SaleFormProps, Sale, SaleFromDB, saleSchema } from "schemas/SaleSchema"
 import MyForm from "components/ui/forms/MyForm"
 import ProductAdder from "../products/ProductAdder"
 import PaymentMethodAdder from "../payment_methods/PaymentMethodAdder"
@@ -18,11 +13,10 @@ import ProductSearcher from "../products/ProductSearcher"
 import PaymentMethodForm from "../payment_methods/PaymentMethodForm"
 import { ApiResponse } from "schemas/ApiSchema"
 
-const SaleForm = ({ saleId, clientId }: ProductFormProps) => {
+const SaleForm = ({ saleId, clientId, refetch }: SaleFormProps) => {
   const { onClose } = useModalContext()
 
   const onSubmit = async (data: Sale, reset: any): Promise<void> => {
-    console.log("CREANDO VENTA")
     if (!clientId) return
     const PARAMS = !!saleId ? `/${saleId}` : ""
     await axios<any, AxiosResponse<ApiResponse<SaleFromDB>>>(
@@ -33,6 +27,7 @@ const SaleForm = ({ saleId, clientId }: ProductFormProps) => {
         withCredentials: true,
       }
     )
+    refetch && refetch()
     reset()
     onClose()
   }
@@ -40,7 +35,6 @@ const SaleForm = ({ saleId, clientId }: ProductFormProps) => {
   const onError = (errors: any) => console.log(errors)
 
   const setDefaultValues = async () => {
-    console.log({ saleId })
     if (!saleId) {
       return { operation_date: getDateForInput() }
     }
@@ -67,7 +61,7 @@ const SaleForm = ({ saleId, clientId }: ProductFormProps) => {
         <Flex alignItems="center" justifyContent={"space-between"}>
           <Heading size="lg">Productos</Heading>
           <MyModal title="Elegir productos" buttonText="Agregar" size="xs">
-            <ProductSearcher />
+            {() => <ProductSearcher />}
           </MyModal>
         </Flex>
         <Divider mb="3" mt="2" />
@@ -75,7 +69,7 @@ const SaleForm = ({ saleId, clientId }: ProductFormProps) => {
         <Flex alignItems="center" justifyContent={"space-between"} mt="8">
           <Heading size="lg">Forma de pago</Heading>
           <MyModal title="Elegir medio de pago" buttonText="Agregar" size="xs">
-            <PaymentMethodForm />
+            {({ onClose }) => <PaymentMethodForm onClose={onClose} />}
           </MyModal>
         </Flex>
         <Divider mb="3" mt="2" />

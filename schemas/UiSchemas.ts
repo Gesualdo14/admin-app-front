@@ -10,6 +10,7 @@ export interface MyInputProps<T> {
   mb?: number
   size?: Sizes
   searchFn?: ((state: any) => void) | boolean
+  watchFor?: string
 }
 
 export type Sizes = "xs" | "sm" | "md" | "lg"

@@ -32,7 +32,7 @@ const SalesPanel = () => {
         colorScheme="green"
         disableButton={!selectedSale}
       >
-        <SaleForm saleId={selectedSale?._id} />
+        {() => <SaleForm saleId={selectedSale?._id} />}
       </MyModal>
     </TabPanel>
   )

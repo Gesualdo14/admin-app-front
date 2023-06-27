@@ -34,27 +34,29 @@ const SalesList = ({
     refetchOnWindowFocus: true,
   })
 
-  if (isLoading) return <Spinner />
-
-  if (!sales) return <Text mb={5}>No hay ventas para mostrar</Text>
-
   return (
-    <Flex
-      flexDirection="column"
-      p={1}
-      gap={2}
-      my={4}
-      maxHeight="40vh"
-      overflowY="scroll"
-    >
-      {sales.map((s) => (
-        <SaleItem
-          sale={s}
-          key={s._id}
-          onClick={onClick}
-          selected={s._id === selectedSaleId}
-        />
-      ))}
+    <Flex flexDir="column">
+      {isLoading && <Spinner alignSelf="center" mt={10} mb={10} />}
+      {!sales && !isLoading && <Text mb={5}>No hay ventas para mostrar</Text>}
+      {sales && (
+        <Flex
+          flexDirection="column"
+          p={1}
+          gap={2}
+          my={4}
+          maxHeight="30vh"
+          overflowY="scroll"
+        >
+          {sales.map((s) => (
+            <SaleItem
+              sale={s}
+              key={s._id}
+              onClick={onClick}
+              selected={s._id === selectedSaleId}
+            />
+          ))}
+        </Flex>
+      )}
     </Flex>
   )
 }

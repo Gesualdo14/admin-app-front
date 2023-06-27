@@ -5,6 +5,7 @@ import MySelect from "components/ui/selects/MySelect"
 import {
   PAYMENT_METHOD_TYPES,
   PaymentMethod,
+  ProductForState,
   TIME_UNITS,
   salePaymentMethodSchema,
 } from "schemas/SaleSchema"
@@ -12,9 +13,13 @@ import { useFieldArray, useFormContext } from "react-hook-form"
 import PMFormButtons from "./PMFormButtons"
 
 const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
-  const { control } = useFormContext()
+  const { control, watch } = useFormContext()
   const { append } = useFieldArray({ control, name: "payment_methods" })
+  const products = watch("products") as ProductForState[]
+  const paymentMethods = watch("payment_methods") as PaymentMethod[]
 
+  const totalPrice = products.reduce((acc, curr) => acc + curr.unit_price, 0)
+  const totalPM = paymentMethods.reduce((acc, curr) => acc + curr.amount, 0)
   return (
     <MyForm<PaymentMethod>
       zodSchema={salePaymentMethodSchema}
@@ -22,7 +27,7 @@ const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
       onError={(data) => console.log({ data })}
       defaultValues={{
         method: "Sin utilización Sist. Financiero",
-        amount: 0,
+        amount: (totalPrice - totalPM).toFixed(2),
         time_value: 0,
         time_unit: "Meses",
       }}

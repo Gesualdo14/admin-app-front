@@ -14,13 +14,13 @@ const SaleItem = ({ sale, onClick, selected }: Props) => {
       py={2}
       px={4}
       cursor="pointer"
-      bg={selected ? "gray.200" : "white"}
+      bg={selected ? "gray.100" : "white"}
       color="black"
       _hover={
         selected
           ? {}
           : {
-              backgroundColor: "gray.200",
+              backgroundColor: "gray.100",
               color: "#222",
             }
       }
@@ -28,7 +28,9 @@ const SaleItem = ({ sale, onClick, selected }: Props) => {
       flexDir="row"
       justifyContent="space-between"
     >
-      <Text>{sale.client.firstname}</Text>
+      <Text>
+        {sale.client.firstname} {sale.client.lastname}
+      </Text>
       <Text>$ {sale.total_amount?.toFixed(2) || 0}</Text>
     </Card>
   )

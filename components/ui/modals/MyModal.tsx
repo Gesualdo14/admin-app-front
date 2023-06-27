@@ -16,7 +16,7 @@ interface Props {
   buttonText?: string
   disableButton?: boolean
   size?: Sizes
-  children: ReactElement
+  children: (props: { onClose: () => void }) => ReactElement
   colorScheme?: string
   mr?: number
 }
@@ -32,13 +32,6 @@ const MyModal = ({
 }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const renderChildren = () => {
-    return Children.map(children, (child) => {
-      return cloneElement(child as ReactElement, {
-        onClose: onClose,
-      })
-    })
-  }
   return (
     <>
       <Button
@@ -56,7 +49,7 @@ const MyModal = ({
         <ModalContent>
           <ModalHeader>{title}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{renderChildren()}</ModalBody>
+          <ModalBody>{children({ onClose })}</ModalBody>
         </ModalContent>
       </Modal>
     </>

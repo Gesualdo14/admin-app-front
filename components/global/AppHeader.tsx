@@ -24,7 +24,6 @@ const AppHeader = () => {
       )}
       {!!user && (
         <Flex gap={2}>
-          <Avatar src={user?.imageUrl} />
           <Button
             size="sm"
             colorScheme="red"
