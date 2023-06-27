@@ -1,4 +1,4 @@
-import { Button, Flex, Input, Spinner, Text } from "@chakra-ui/react"
+import { Flex, Spinner, Text } from "@chakra-ui/react"
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { ClientFromDB } from "schemas/ClientSchema"
