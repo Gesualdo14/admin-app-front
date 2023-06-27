@@ -22,7 +22,6 @@ const LoginButtons = () => {
               `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/login/${email}/code`
             )
             .then(({ data }) => {
-              console.log({ data })
               toast({
                 description: data.message,
                 status: "success",

@@ -4,7 +4,6 @@ import useAuth from "hooks/useAuth"
 
 const AppHeader = () => {
   const { user, setUser } = useAuth()
-  console.log({ user })
 
   const router = useRouter()
   return (

@@ -1,4 +1,4 @@
-import { Divider, Flex, Heading, useModalContext } from "@chakra-ui/react"
+import { Flex, Heading } from "@chakra-ui/react"
 import axios, { AxiosResponse } from "axios"
 import { env } from "~/env.mjs"
 import "react-datepicker/dist/react-datepicker.css"
@@ -12,6 +12,7 @@ import MyModal from "components/ui/modals/MyModal"
 import ProductSearcher from "../products/ProductSearcher"
 import PaymentMethodForm from "../payment_methods/PaymentMethodForm"
 import { ApiResponse } from "schemas/ApiSchema"
+import ProductsSubtotal from "../products/ProductsSubtotal"
 
 const SaleForm = ({ saleId, clientId, refetch, onClose }: SaleFormProps) => {
   const onSubmit = async (data: Sale, reset: any): Promise<void> => {
@@ -56,21 +57,31 @@ const SaleForm = ({ saleId, clientId, refetch, onClose }: SaleFormProps) => {
         zodSchema={saleSchema}
         defaultValues={setDefaultValues}
       >
-        <Flex alignItems="center" justifyContent={"space-between"}>
-          <Heading size="lg">Productos</Heading>
+        <Flex alignItems="center" justifyContent={"space-between"} mb={3}>
+          <Heading size="lg" m={0}>
+            Productos
+          </Heading>
           <MyModal title="Elegir productos" buttonText="Agregar" size="xs">
             {() => <ProductSearcher />}
           </MyModal>
         </Flex>
-        <Divider mb="3" mt="2" />
+        {/* <Divider mb="3" mt="2" /> */}
         <ProductAdder fieldName="products" />
-        <Flex alignItems="center" justifyContent={"space-between"} mt="8">
-          <Heading size="lg">Forma de pago</Heading>
+        <ProductsSubtotal />
+        <Flex
+          alignItems="center"
+          justifyContent={"space-between"}
+          mt="8"
+          mb={3}
+        >
+          <Heading size="lg" m={0}>
+            Forma de pago
+          </Heading>
           <MyModal title="Elegir medio de pago" buttonText="Agregar" size="xs">
             {({ onClose }) => <PaymentMethodForm onClose={onClose} />}
           </MyModal>
         </Flex>
-        <Divider mb="3" mt="2" />
+        {/* <Divider mb="3" mt="2" /> */}
         <PaymentMethodAdder fieldName="payment_methods" />
         <SaleFormButtons saleId={saleId} onClose={onClose} />
       </MyForm>

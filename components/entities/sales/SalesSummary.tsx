@@ -31,8 +31,6 @@ const SalesSummary = ({
     },
   })
 
-  console.log({ periods })
-
   return (
     <Flex flexDir="column">
       {isLoading && <Spinner alignSelf="center" mt={10} />}

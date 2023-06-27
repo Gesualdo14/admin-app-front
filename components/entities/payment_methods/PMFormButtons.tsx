@@ -8,7 +8,6 @@ interface Props {
 }
 
 const PMFormButtons = ({ getValues, append, onClose }: Props) => {
-  console.log({ getValues })
   return (
     <Button
       colorScheme="purple"

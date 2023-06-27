@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [validating, setValidating] = useState(true)
 
   const router = useRouter()
-  console.log({ router })
 
   const PROTECTED_ROUTES = ["/"]
 
@@ -44,7 +43,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(userForState)
     validateRoutes(userForState)
   }, [])
-  console.log({ validating })
 
   if (validating)
     return (

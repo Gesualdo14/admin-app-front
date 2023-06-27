@@ -2,6 +2,7 @@ import { Flex, Text } from "@chakra-ui/react"
 import MyDeleteIcon from "components/ui/icons/MyDeleteIcon"
 import { useFormContext } from "react-hook-form"
 import { PaymentMethod, Sale } from "schemas/SaleSchema"
+import PaymentMethodsSubtotal from "./PaymentMethodSubtotal"
 
 interface Props {
   fieldName: keyof Sale
@@ -12,7 +13,11 @@ function PaymentMethodAdder({ fieldName }: Props) {
   const paymentMethods = watch(fieldName)
 
   if (!paymentMethods || paymentMethods.length === 0) {
-    return <Text mb={5}>No se ha agregado ningún método de pago</Text>
+    return (
+      <Text mb={5} textAlign="center">
+        No se ha agregado ningún método de pago
+      </Text>
+    )
   }
 
   return (
@@ -25,13 +30,14 @@ function PaymentMethodAdder({ fieldName }: Props) {
           justifyContent="space-between"
           mb={2}
         >
-          <Text>{pm.method}</Text>
           <Flex alignItems="center">
-            <Text mr={2}>${pm.amount}</Text>
             <MyDeleteIcon<Sale> fieldName="payment_methods" index={index} />
+            <Text ml={2}>{pm.method}</Text>
           </Flex>
+          <Text>${pm.amount}</Text>
         </Flex>
       ))}
+      <PaymentMethodsSubtotal />
     </Flex>
   )
 }

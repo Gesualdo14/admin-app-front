@@ -3,6 +3,7 @@ import MyDeleteIcon from "components/ui/icons/MyDeleteIcon"
 import MyInput from "components/ui/inputs/MyInput"
 import { useFormContext } from "react-hook-form"
 import { Product, Sale } from "schemas/SaleSchema"
+import ProductSubtotal from "./ProductSubtotal"
 
 interface Props {
   fieldName: keyof Sale
@@ -13,7 +14,11 @@ function ProductAdder({ fieldName }: Props) {
   const products = watch(fieldName)
 
   if (!products || products.length === 0) {
-    return <Text mb={5}>No se ha agregado ningún producto</Text>
+    return (
+      <Text mb={5} textAlign="center">
+        No se ha agregado ningún producto
+      </Text>
+    )
   }
 
   return (
@@ -27,18 +32,20 @@ function ProductAdder({ fieldName }: Props) {
           mb={2}
           width="100%"
         >
-          <Text flex={6}>{product.name}</Text>
-          <Flex alignItems="center" gap={2} flex={3}>
-            <MyInput
-              fieldName={`products.${index}.qty`}
-              label="Cantidad"
-              mb={0}
-              showLabel={false}
-              size="sm"
-              valueAsNumber
-            />
+          <Flex alignItems="center" gap={2} flex={6}>
             <MyDeleteIcon<Sale> fieldName="products" index={index} />
+            <Text>{product.name}</Text>
           </Flex>
+          <MyInput
+            flex={2}
+            fieldName={`products.${index}.qty`}
+            label="Cantidad"
+            mb={0}
+            showLabel={false}
+            size="sm"
+            valueAsNumber
+          />
+          <ProductSubtotal index={index} flex={3} />
         </Flex>
       ))}
     </Flex>

@@ -38,7 +38,7 @@ const MyForm = <T,>({
   const renderChildren = () => {
     return Children.map(children, (child: any) => {
       let props = {}
-      console.log({ child: child?.type?.name })
+
       if ("name" in child?.type) {
         props = {
           getValues: methods.getValues,

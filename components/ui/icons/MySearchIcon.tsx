@@ -18,14 +18,14 @@ const MySearchIcon = ({ index }: Props) => {
       icon={<SearchIcon />}
       onClick={async () => {
         const code = getValues(`products.${index}.code`)
-        console.log({ code })
+
         if (!code) return
         const { data } = await axios.get(
           `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/products/${code}`,
           { withCredentials: true }
         )
         const product: Product = data.data
-        const { supplier_cost, micro, iva, profit_margin, salvament_margin } =
+        const { supplier_cost, micro, profit_margin, salvament_margin } =
           product
 
         const baseCost = micro + supplier_cost
