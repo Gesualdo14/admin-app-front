@@ -32,8 +32,12 @@ const ClientsPanel = () => {
               colorScheme="green"
               disableButton={!selectedClient}
             >
-              {() => (
-                <SaleForm clientId={selectedClient?._id} refetch={refetch} />
+              {({ onClose }) => (
+                <SaleForm
+                  clientId={selectedClient?._id}
+                  refetch={refetch}
+                  onClose={onClose}
+                />
               )}
             </MyModal>
           </Flex>

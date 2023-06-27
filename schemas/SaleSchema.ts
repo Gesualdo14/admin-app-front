@@ -56,4 +56,5 @@ export interface SaleFormProps {
   saleId?: string
   clientId?: string
   refetch?: () => void
+  onClose?: () => void
 }

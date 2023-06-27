@@ -7,11 +7,11 @@ interface Props {
   getValues?: () => void
   onSubmit?: (data: any, reset: any) => void
   reset?: () => void
+  onClose?: () => void
 }
 
-const SaleFormButtons = ({ saleId, onSubmit }: Props) => {
+const SaleFormButtons = ({ saleId, onSubmit, onClose }: Props) => {
   const { getValues, reset } = useFormContext()
-  const router = useRouter()
 
   return (
     <ButtonGroup>
@@ -26,8 +26,8 @@ const SaleFormButtons = ({ saleId, onSubmit }: Props) => {
       >
         {!!saleId ? "Guardar cambios" : "Crear"}
       </Button>
-      <Button colorScheme="gray" onClick={() => router.back()}>
-        Volver
+      <Button colorScheme="gray" onClick={() => onClose && onClose()}>
+        Cerrar
       </Button>
     </ButtonGroup>
   )

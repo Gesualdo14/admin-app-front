@@ -13,9 +13,7 @@ import ProductSearcher from "../products/ProductSearcher"
 import PaymentMethodForm from "../payment_methods/PaymentMethodForm"
 import { ApiResponse } from "schemas/ApiSchema"
 
-const SaleForm = ({ saleId, clientId, refetch }: SaleFormProps) => {
-  const { onClose } = useModalContext()
-
+const SaleForm = ({ saleId, clientId, refetch, onClose }: SaleFormProps) => {
   const onSubmit = async (data: Sale, reset: any): Promise<void> => {
     if (!clientId) return
     const PARAMS = !!saleId ? `/${saleId}` : ""
@@ -29,7 +27,7 @@ const SaleForm = ({ saleId, clientId, refetch }: SaleFormProps) => {
     )
     refetch && refetch()
     reset()
-    onClose()
+    onClose && onClose()
   }
 
   const onError = (errors: any) => console.log(errors)
@@ -74,7 +72,7 @@ const SaleForm = ({ saleId, clientId, refetch }: SaleFormProps) => {
         </Flex>
         <Divider mb="3" mt="2" />
         <PaymentMethodAdder fieldName="payment_methods" />
-        <SaleFormButtons saleId={saleId} />
+        <SaleFormButtons saleId={saleId} onClose={onClose} />
       </MyForm>
     </>
   )

@@ -15,11 +15,11 @@ import PMFormButtons from "./PMFormButtons"
 const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
   const { control, watch } = useFormContext()
   const { append } = useFieldArray({ control, name: "payment_methods" })
-  const products = watch("products") as ProductForState[]
-  const paymentMethods = watch("payment_methods") as PaymentMethod[]
+  const products = (watch("products") as ProductForState[]) || []
+  const paymentMethods = (watch("payment_methods") as PaymentMethod[]) || []
 
-  const totalPrice = products.reduce((acc, curr) => acc + curr.unit_price, 0)
-  const totalPM = paymentMethods.reduce((acc, curr) => acc + curr.amount, 0)
+  const totalPrice = products?.reduce((acc, curr) => acc + curr.unit_price, 0)
+  const totalPM = paymentMethods?.reduce((acc, curr) => acc + curr.amount, 0)
   return (
     <MyForm<PaymentMethod>
       zodSchema={salePaymentMethodSchema}
