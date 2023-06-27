@@ -1,4 +1,4 @@
-import { Button, Flex, Input, useModalContext } from "@chakra-ui/react"
+import { Button, Flex, useModalContext } from "@chakra-ui/react"
 import axios, { AxiosResponse } from "axios"
 import MyForm from "components/ui/forms/MyForm"
 import MyInput from "components/ui/inputs/MyInput"
