@@ -1,4 +1,4 @@
-import { Button, ButtonGroup } from "@chakra-ui/react"
+import { Button, ButtonGroup, Spinner } from "@chakra-ui/react"
 import { useFormContext } from "react-hook-form"
 
 interface Props {
@@ -14,13 +14,10 @@ const SaleFormButtons = ({ saleId, onClose }: Props) => {
     formState: { isSubmitting },
   } = useFormContext()
 
-  console.log({ isSubmitting })
-  if (isSubmitting) return <></>
-
   return (
     <ButtonGroup mt={5}>
       <Button colorScheme="purple" type="submit">
-        {isSubmitting ? "Loading..." : !!saleId ? "Guardar cambios" : "Crear"}
+        {isSubmitting ? <Spinner /> : !!saleId ? "Guardar cambios" : "Crear"}
       </Button>
       <Button colorScheme="gray" onClick={() => onClose && onClose()}>
         Cerrar

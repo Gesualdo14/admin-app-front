@@ -52,8 +52,8 @@ const MyForm = <T,>({
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={methods.handleSubmit((data) => {
-          onSubmit(data, methods.reset)
+        onSubmit={methods.handleSubmit(async (data) => {
+          await onSubmit(data, methods.reset) // Si o si el await para el loading
         }, onError)}
       >
         {renderChildren()}
