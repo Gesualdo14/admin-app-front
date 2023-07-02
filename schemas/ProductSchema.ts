@@ -6,6 +6,7 @@ export const ProductSchema = z.object({
   code: z.string(),
   supplier_cost: z.number(),
   iva: z.number(),
+  discount: z.number(),
   micro: z.number(),
   salvament_margin: z.number(),
   profit_margin: z.number(),

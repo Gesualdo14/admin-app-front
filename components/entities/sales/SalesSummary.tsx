@@ -39,6 +39,7 @@ const SalesSummary = ({
         <Flex p={1} gap={2} mt={4}>
           {periods.map((p: any) => (
             <SaleSummaryItem
+              key={p._id.month + p._id.year}
               period={p}
               selected={
                 selectedMonth === p._id.month && selectedYear === p._id.year

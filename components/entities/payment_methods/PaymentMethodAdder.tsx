@@ -24,7 +24,7 @@ function PaymentMethodAdder({ fieldName }: Props) {
     <Flex flexDir="column" mb={4}>
       {paymentMethods.map((pm: PaymentMethod, index: number) => (
         <Flex
-          key={pm.method}
+          key={index}
           gap={3}
           alignItems="center"
           justifyContent="space-between"

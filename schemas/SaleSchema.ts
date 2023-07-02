@@ -16,6 +16,7 @@ export const TIME_UNITS = z.enum(["Días", "Meses", "Años"])
 export const saleProductSchema = z.object({
   code: z.string(),
   name: z.string().optional(),
+  iva: z.number(),
   qty: z.number(),
   unit_price: z.number(),
   discount: z.number().optional(),
@@ -30,6 +31,10 @@ export const salePaymentMethodSchema = z.object({
 
 export const saleSchema = z.object({
   products: z.array(saleProductSchema),
+  subtotal: z.number(),
+  totalIva: z.number(),
+  discounts: z.number(),
+  trigger_update: z.number(),
   payment_methods: z.array(salePaymentMethodSchema),
 })
 

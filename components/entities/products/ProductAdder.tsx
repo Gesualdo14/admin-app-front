@@ -2,18 +2,14 @@ import { Flex, Text } from "@chakra-ui/react"
 import MyDeleteIcon from "components/ui/icons/MyDeleteIcon"
 import MyInput from "components/ui/inputs/MyInput"
 import { useFormContext } from "react-hook-form"
-import { Product, Sale } from "schemas/SaleSchema"
+import { ProductForState, Sale } from "schemas/SaleSchema"
 import ProductSubtotal from "./ProductSubtotal"
 
-interface Props {
-  fieldName: keyof Sale
-}
+function ProductAdder() {
+  const { watch } = useFormContext<Sale>()
+  const products = watch("products")
 
-function ProductAdder({ fieldName }: Props) {
-  const { watch } = useFormContext()
-  const products = watch(fieldName)
-
-  if (!products || products.length === 0) {
+  if (!products || products?.length === 0) {
     return (
       <Text mb={5} textAlign="center">
         No se ha agregado ningún producto
@@ -23,7 +19,7 @@ function ProductAdder({ fieldName }: Props) {
 
   return (
     <Flex flexDir="column" alignItems="flex-start">
-      {products.map((product: Product, index: number) => (
+      {products.map((product: ProductForState, index: number) => (
         <Flex
           key={index}
           gap={3}
@@ -44,6 +40,7 @@ function ProductAdder({ fieldName }: Props) {
             showLabel={false}
             size="sm"
             valueAsNumber
+            triggerUpdate
           />
           <ProductSubtotal index={index} flex={3} />
         </Flex>

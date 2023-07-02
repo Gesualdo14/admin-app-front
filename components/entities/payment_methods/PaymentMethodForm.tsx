@@ -5,7 +5,6 @@ import MySelect from "components/ui/selects/MySelect"
 import {
   PAYMENT_METHOD_TYPES,
   PaymentMethod,
-  ProductForState,
   TIME_UNITS,
   salePaymentMethodSchema,
 } from "schemas/SaleSchema"
@@ -15,14 +14,16 @@ import PMFormButtons from "./PMFormButtons"
 const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
   const { control, watch } = useFormContext()
   const { append } = useFieldArray({ control, name: "payment_methods" })
-  const products = (watch("products") as ProductForState[]) || []
+  const [subtotal, totalIva, discounts] = watch([
+    "subtotal",
+    "totalIva",
+    "discounts",
+  ])
   const paymentMethods = (watch("payment_methods") as PaymentMethod[]) || []
 
-  const totalPrice = products?.reduce(
-    (acc, curr) => acc + curr.qty * curr.unit_price,
-    0
-  )
   const totalPM = paymentMethods?.reduce((acc, curr) => acc + curr.amount, 0)
+
+  const total = subtotal + totalIva - discounts
   return (
     <MyForm<PaymentMethod>
       zodSchema={salePaymentMethodSchema}
@@ -30,7 +31,7 @@ const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
       onError={(data) => console.log({ data })}
       defaultValues={{
         method: "Sin utilización Sist. Financiero",
-        amount: (totalPrice - totalPM).toFixed(2),
+        amount: (total - totalPM).toFixed(2),
         time_value: 0,
         time_unit: "Meses",
       }}

@@ -7,14 +7,20 @@ interface Props<T> {
 }
 
 function MyDeleteIcon<T>({ fieldName, index }: Props<T>) {
-  const { control } = useFormContext()
-  const { remove } = useFieldArray({ control, name: fieldName as string })
+  const { control, setValue } = useFormContext()
+  const { remove } = useFieldArray({
+    control,
+    name: fieldName as string,
+  })
 
   return (
     <DeleteIcon
       color={"red.500"}
       _hover={{ color: "red.700", cursor: "pointer" }}
-      onClick={() => remove(index)}
+      onClick={() => {
+        setValue("trigger_update", Math.random())
+        remove(index)
+      }}
     />
   )
 }

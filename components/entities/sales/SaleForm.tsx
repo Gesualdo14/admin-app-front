@@ -13,6 +13,8 @@ import ProductSearcher from "../products/ProductSearcher"
 import PaymentMethodForm from "../payment_methods/PaymentMethodForm"
 import { ApiResponse } from "schemas/ApiSchema"
 import ProductsSubtotal from "../products/ProductsSubtotal"
+import MyInput from "components/ui/inputs/MyInput"
+import SaleFormUpdater from "./SaleFormUpdater"
 
 const SaleForm = ({ saleId, clientId, refetch, onClose }: SaleFormProps) => {
   const onSubmit = async (data: Sale, reset: any): Promise<void> => {
@@ -35,7 +37,14 @@ const SaleForm = ({ saleId, clientId, refetch, onClose }: SaleFormProps) => {
 
   const setDefaultValues = async () => {
     if (!saleId) {
-      return { operation_date: getDateForInput() }
+      return {
+        operation_date: getDateForInput(),
+        subtotal: 0,
+        totalIva: 0,
+        discounts: 0,
+        products: [],
+        payment_methods: [],
+      }
     }
 
     const { data } = await axios.get(
@@ -57,6 +66,10 @@ const SaleForm = ({ saleId, clientId, refetch, onClose }: SaleFormProps) => {
         zodSchema={saleSchema}
         defaultValues={setDefaultValues}
       >
+        <SaleFormUpdater />
+        <MyInput type="hidden" fieldName="subtotal" label="" valueAsNumber />
+        <MyInput type="hidden" fieldName="iva" label="" valueAsNumber />
+        <MyInput type="hidden" fieldName="discounts" label="" valueAsNumber />
         <Flex alignItems="center" justifyContent={"space-between"} mb={3}>
           <Heading size="lg" m={0}>
             Productos
@@ -66,7 +79,7 @@ const SaleForm = ({ saleId, clientId, refetch, onClose }: SaleFormProps) => {
           </MyModal>
         </Flex>
         {/* <Divider mb="3" mt="2" /> */}
-        <ProductAdder fieldName="products" />
+        <ProductAdder />
         <ProductsSubtotal />
         <Flex
           alignItems="center"
@@ -83,6 +96,7 @@ const SaleForm = ({ saleId, clientId, refetch, onClose }: SaleFormProps) => {
         </Flex>
         {/* <Divider mb="3" mt="2" /> */}
         <PaymentMethodAdder fieldName="payment_methods" />
+
         <SaleFormButtons saleId={saleId} onClose={onClose} />
       </MyForm>
     </>

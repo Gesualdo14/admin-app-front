@@ -23,9 +23,11 @@ function MyInput<T>({
   mb = 5,
   size,
   searchFn = false,
+  triggerUpdate = false,
 }: MyInputProps<T>) {
   const {
     getValues,
+    setValue,
     formState: { errors },
     register,
   } = useFormContext()
@@ -38,6 +40,20 @@ function MyInput<T>({
   }
 
   const registerOptions = valueAsNumber ? { valueAsNumber } : { valueAsDate }
+  const FinalInput = (
+    <Input
+      size={size}
+      type={type}
+      placeholder={placeholder || label}
+      {...register(fieldName as string, registerOptions)}
+      onChange={(e) => {
+        register(fieldName as string, registerOptions).onChange(e)
+        triggerUpdate && setValue("trigger_update", Math.random())
+      }}
+    />
+  )
+
+  if (type === "hidden") return FinalInput
 
   return (
     <FormControl mb={mb} isInvalid={!!errors[fieldName as string]} flex={flex}>
@@ -50,12 +66,7 @@ function MyInput<T>({
             onClick={handleSearch}
           />
         )}
-        <Input
-          size={size}
-          type={type}
-          placeholder={placeholder || label}
-          {...register(fieldName as string, registerOptions)}
-        />
+        {FinalInput}
       </Flex>
       <FormErrorMessage>
         {errors[fieldName]?.message as ReactNode}

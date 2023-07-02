@@ -53,7 +53,7 @@ const ClientItem = ({ client, onClick, selected }: Props) => {
           }}
         >
           {client.document_value}{" "}
-          <Text fontSize="xs" display="inline" color="gray">
+          <Text as="span" fontSize="xs" display="inline" color="gray">
             ({client.document_type})
           </Text>
         </Text>

@@ -12,7 +12,7 @@ const PaymentMethodsSubtotal = () => {
     <Flex flexDir="column">
       <Divider flex={1} />
       <Flex justifyContent="space-between">
-        <Text fontWeight="bold">Resta abonar</Text>
+        <Text fontWeight="bold">Total</Text>
         <Text textAlign="end">${subtotal.toFixed(2)}</Text>
       </Flex>
     </Flex>

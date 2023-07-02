@@ -5,9 +5,10 @@ import { Search2Icon } from "@chakra-ui/icons"
 import { ProductFromDB } from "schemas/ProductSchema"
 import { useFieldArray, useFormContext } from "react-hook-form"
 import calcProductPrice from "helpers/calcProductPrice"
+import { Sale } from "schemas/SaleSchema"
 
 const ProductSearcher = () => {
-  const { control } = useFormContext()
+  const { control, setValue } = useFormContext<Sale>()
   const { onClose } = useModalContext()
   const { append } = useFieldArray({ control, name: "products" })
   const [searchText, setSearchText] = useState<string | undefined>("")
@@ -26,13 +27,19 @@ const ProductSearcher = () => {
 
   const handleSelect = () => {
     for (const product of selectedProducts) {
+      const unit_price = calcProductPrice(product)
+      const { code, name, iva, discount } = product
+
       append({
-        code: product.code,
-        name: product.name,
+        code,
+        name,
+        iva,
+        discount,
         qty: 1,
-        unit_price: calcProductPrice(product),
+        unit_price,
       })
     }
+    setValue("trigger_update", Math.random())
     onClose()
   }
 
