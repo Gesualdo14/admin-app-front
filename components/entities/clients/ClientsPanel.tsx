@@ -35,6 +35,7 @@ const ClientsPanel = () => {
               {({ onClose }) => (
                 <SaleForm
                   clientId={selectedClient?._id}
+                  clientSalesCount={selectedClient?.sales?.count || 0}
                   refetch={refetch}
                   onClose={onClose}
                 />

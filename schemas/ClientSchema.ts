@@ -26,7 +26,7 @@ export const ClientSchema = z
       return true
     },
     {
-      message: "Mínimo 10 caracteres si el código es 593",
+      message: "Exacto 10 caracteres si el código es 593",
       path: ["phoneNumber"],
     }
   )
@@ -37,6 +37,7 @@ export interface ClientFromDB extends Client {
   _id: string
   firstname: string
   sales?: { count: number; amount: number }
+  comissions?: number
 }
 
 export interface ClientListProps {

@@ -16,7 +16,13 @@ import ProductsSubtotal from "../products/ProductsSubtotal"
 import MyInput from "components/ui/inputs/MyInput"
 import SaleFormUpdater from "./SaleFormUpdater"
 
-const SaleForm = ({ saleId, clientId, refetch, onClose }: SaleFormProps) => {
+const SaleForm = ({
+  saleId,
+  clientId,
+  refetch,
+  onClose,
+  clientSalesCount,
+}: SaleFormProps) => {
   const onSubmit = async (data: Sale, reset: any): Promise<void> => {
     if (!clientId) return
     const PARAMS = !!saleId ? `/${saleId}` : ""
@@ -96,7 +102,12 @@ const SaleForm = ({ saleId, clientId, refetch, onClose }: SaleFormProps) => {
         </Flex>
         {/* <Divider mb="3" mt="2" /> */}
         <PaymentMethodAdder fieldName="payment_methods" />
-
+        <MyInput<Sale>
+          fieldName="referalDoc"
+          label="Referido por"
+          placeholder="Documento referente..."
+          showIf={clientSalesCount === 0}
+        />
         <SaleFormButtons saleId={saleId} onClose={onClose} />
       </MyForm>
     </>

@@ -1,9 +1,9 @@
 import { Flex, Spinner, Text } from "@chakra-ui/react"
+import { SaleFromDB } from "schemas/SaleSchema"
+import SaleItem from "./SaleItem"
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
-import { SaleFromDB } from "schemas/SaleSchema"
 import { env } from "~/env.mjs"
-import SaleItem from "./SaleItem"
 
 interface Props {
   selectedMonth: number | null
@@ -21,7 +21,7 @@ const SalesList = ({
     ? `?month=${selectedMonth}&year=${selectedYear}`
     : ""
   const { data: sales, isLoading } = useQuery<SaleFromDB[]>({
-    queryKey: ["sales", selectedMonth],
+    queryKey: selectedMonth ? ["sales", selectedMonth] : ["sales"],
     queryFn: async () => {
       const res = await axios.get(
         `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales${PARAMS}`,
@@ -31,13 +31,12 @@ const SalesList = ({
       )
       return res.data.data
     },
-    refetchOnWindowFocus: true,
   })
-
   return (
     <Flex flexDir="column">
-      {isLoading && <Spinner alignSelf="center" mt={10} mb={10} />}
+      {isLoading && <Spinner height={5} alignSelf="center" mt={10} mb={10} />}
       {!sales && !isLoading && <Text mb={5}>No hay ventas para mostrar</Text>}
+
       {sales && (
         <Flex
           flexDirection="column"

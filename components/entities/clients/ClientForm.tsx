@@ -1,4 +1,4 @@
-import { Button, Flex, useModalContext } from "@chakra-ui/react"
+import { Flex, useModalContext } from "@chakra-ui/react"
 import axios, { AxiosResponse } from "axios"
 import MyForm from "components/ui/forms/MyForm"
 import MyInput from "components/ui/inputs/MyInput"
@@ -12,8 +12,9 @@ import type {
 } from "schemas/ClientSchema"
 import { ClientSchema, DOC_TYPES } from "schemas/ClientSchema"
 import { env } from "~/env.mjs"
+import ClientButtons from "./ClientButtons"
 
-const ClientForm = ({ clientId }: ClientFormProps) => {
+const ClientForm = ({ clientId, refetch }: ClientFormProps) => {
   const { onClose } = useModalContext()
 
   const onSubmit = async (state: Client, reset: () => void) => {
@@ -28,6 +29,7 @@ const ClientForm = ({ clientId }: ClientFormProps) => {
     )
     reset()
     onClose()
+    refetch && refetch()
   }
 
   const onError = (errors: FieldValues) => {
@@ -71,9 +73,7 @@ const ClientForm = ({ clientId }: ClientFormProps) => {
         />
         <MyInput fieldName="document_value" label="Documento" mb={0} />
       </Flex>
-      <Button colorScheme="purple" type="submit" mb={2}>
-        {!!clientId ? "Guardar cambios" : "Crear"}
-      </Button>
+      <ClientButtons editing={!!clientId} />
     </MyForm>
   )
 }

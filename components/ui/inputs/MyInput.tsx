@@ -24,12 +24,14 @@ function MyInput<T>({
   size,
   searchFn = false,
   triggerUpdate = false,
+  showIf,
 }: MyInputProps<T>) {
   const {
     getValues,
     setValue,
     formState: { errors },
     register,
+    watch,
   } = useFormContext()
 
   const handleSearch = () => {
@@ -54,6 +56,13 @@ function MyInput<T>({
   )
 
   if (type === "hidden") return FinalInput
+
+  let show = typeof showIf === "boolean" ? showIf : true
+  if (showIf && Array.isArray(showIf)) {
+    show = watch(showIf[0] as string) === showIf[1]
+  }
+
+  if (!show) return <></>
 
   return (
     <FormControl mb={mb} isInvalid={!!errors[fieldName as string]} flex={flex}>

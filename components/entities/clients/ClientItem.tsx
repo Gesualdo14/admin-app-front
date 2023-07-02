@@ -30,7 +30,6 @@ const ClientItem = ({ client, onClick, selected }: Props) => {
       onClick={() => onClick(client)}
       flexDir="row"
       justifyContent="space-between"
-      alignItems="center"
     >
       <Flex flexDir="column">
         <Text>
@@ -62,10 +61,15 @@ const ClientItem = ({ client, onClick, selected }: Props) => {
         <Text color="red.600">Sin ventas</Text>
       ) : (
         <Flex flexDir="column" alignItems="flex-end">
-          <Text color="green">$ {client.sales?.amount?.toFixed(2)}</Text>
-          <Text>
-            {client.sales?.count} venta{s}
+          <Text color="green" title={`${client.sales?.count} venta${s}`}>
+            $ {client.sales?.amount?.toFixed(2)}
           </Text>
+
+          {client?.comissions && (
+            <Text as="span" fontSize="xs" color="purple.400">
+              ${client?.comissions} en comisiones
+            </Text>
+          )}
         </Flex>
       )}
     </Card>

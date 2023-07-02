@@ -24,6 +24,7 @@ const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
   const totalPM = paymentMethods?.reduce((acc, curr) => acc + curr.amount, 0)
 
   const total = subtotal + totalIva - discounts
+
   return (
     <MyForm<PaymentMethod>
       zodSchema={salePaymentMethodSchema}
@@ -53,11 +54,13 @@ const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
           label="Plazo"
           mb={0}
           valueAsNumber
+          showIf={["method", "Tarjeta de crédito"]}
         />
         <MySelect<PaymentMethod>
           fieldName="time_unit"
           label="Período"
           options={Object.keys(TIME_UNITS.Enum)}
+          showIf={["method", "Tarjeta de crédito"]}
         />
       </Flex>
       <PMFormButtons append={append} onClose={onClose} />

@@ -29,6 +29,8 @@ const SalesSummary = ({
       )
       return res.data.data
     },
+    refetchOnMount: true,
+    staleTime: 0,
   })
 
   return (

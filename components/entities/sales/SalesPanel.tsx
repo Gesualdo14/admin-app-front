@@ -10,6 +10,7 @@ const SalesPanel = () => {
   const [selectedSale, setSelectedSale] = useState<SaleFromDB | null>()
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null)
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
+
   return (
     <TabPanel p={0}>
       <SalesSummary

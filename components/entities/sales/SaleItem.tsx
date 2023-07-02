@@ -1,4 +1,4 @@
-import { Card, Text } from "@chakra-ui/react"
+import { Card, Flex, Text } from "@chakra-ui/react"
 import { SaleFromDB } from "schemas/SaleSchema"
 
 interface Props {
@@ -26,12 +26,15 @@ const SaleItem = ({ sale, onClick, selected }: Props) => {
       }
       onClick={() => onClick(sale)}
       flexDir="row"
+      alignItems="center"
       justifyContent="space-between"
     >
       <Text>
         {sale.client.firstname} {sale.client.lastname}
       </Text>
-      <Text>$ {sale.total_amount?.toFixed(2) || 0}</Text>
+      <Flex flexDir="column" alignItems="flex-end">
+        <Text>$ {sale.total_amount?.toFixed(2) || 0}</Text>
+      </Flex>
     </Card>
   )
 }

@@ -19,7 +19,7 @@ const Home: NextPage = () => {
         <AppHeader />
 
         <Card p={4}>
-          <Tabs variant="enclosed" colorScheme="blue">
+          <Tabs variant="enclosed" colorScheme="blue" isLazy>
             <TabList>
               <Tab>💵 Ventas</Tab>
               <Tab>🤝 Clientes</Tab>

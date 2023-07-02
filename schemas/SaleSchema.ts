@@ -25,16 +25,17 @@ export const saleProductSchema = z.object({
 export const salePaymentMethodSchema = z.object({
   method: z.enum(PAYMENT_METHOD_TYPES),
   amount: z.number(),
-  time_unit: TIME_UNITS,
-  time_value: z.number(),
+  time_unit: TIME_UNITS.nullish(),
+  time_value: z.number().nullish(),
 })
 
 export const saleSchema = z.object({
-  products: z.array(saleProductSchema),
   subtotal: z.number(),
   totalIva: z.number(),
   discounts: z.number(),
   trigger_update: z.number(),
+  referalDoc: z.string().nullish(),
+  products: z.array(saleProductSchema),
   payment_methods: z.array(salePaymentMethodSchema),
 })
 
@@ -46,6 +47,7 @@ export interface SaleFromDB extends Sale {
   _id: string
   total_amount: number
   client: ClientFromDB
+  referalDoc: string
 }
 
 export interface Product extends ProductForState {
@@ -60,6 +62,7 @@ export interface Product extends ProductForState {
 export interface SaleFormProps {
   saleId?: string
   clientId?: string
+  clientSalesCount?: number
   refetch?: () => void
   onClose?: () => void
 }

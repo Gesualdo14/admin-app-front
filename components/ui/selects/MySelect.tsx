@@ -6,10 +6,25 @@ interface Props<T> {
   label: string
   flex?: number
   options: readonly string[]
+  show?: boolean
+  showIf?: [keyof T, string]
 }
 
-function MySelect<T>({ label, fieldName, flex = 3, options }: Props<T>) {
-  const { register } = useFormContext()
+function MySelect<T>({
+  label,
+  fieldName,
+  flex = 3,
+  options,
+  showIf,
+}: Props<T>) {
+  const { register, watch } = useFormContext()
+
+  let show = true
+  if (showIf) {
+    show = watch(showIf[0] as string) === showIf[1]
+  }
+
+  if (!show) return <></>
 
   return (
     <FormControl flex={flex}>

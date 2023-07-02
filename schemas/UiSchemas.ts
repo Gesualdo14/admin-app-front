@@ -12,6 +12,8 @@ export interface MyInputProps<T> {
   searchFn?: ((state: any) => void) | boolean
   watchFor?: string
   triggerUpdate?: boolean
+  show?: boolean
+  showIf?: [keyof T, string] | boolean
 }
 
 export type Sizes = "xs" | "sm" | "md" | "lg"

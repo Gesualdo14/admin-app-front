@@ -1,6 +1,6 @@
 import { NextPage } from "next"
-import { Container, Heading, Card } from "@chakra-ui/react"
-import axios from "axios"
+import { Container, Heading, Card, useToast } from "@chakra-ui/react"
+import axios, { AxiosError } from "axios"
 import { env } from "~/env.mjs"
 import { useRouter } from "next/router"
 import MyForm from "components/ui/forms/MyForm"
@@ -11,23 +11,40 @@ import useAuth from "hooks/useAuth"
 
 const Login: NextPage = () => {
   const { setUser } = useAuth()
+  const toast = useToast()
   const router = useRouter()
 
-  const onSubmit = (data: Login) => {
+  const onSubmit = async (data: Login) => {
     const { email, code } = data
-    axios
-      .post(
+    try {
+      const { data } = await axios.post(
         `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/auth/login/${email}`,
         { code },
         { withCredentials: true }
       )
-      .then(({ data }) => {
-        const tokenPayload = data.data
-        localStorage.setItem("user", JSON.stringify(tokenPayload))
-        setUser(tokenPayload)
-        router.push("/")
-      })
-      .catch((error) => console.log(error))
+      const tokenPayload = data.data
+      localStorage.setItem("user", JSON.stringify(tokenPayload))
+      setUser(tokenPayload)
+      router.push("/")
+    } catch (error) {
+      console.log({ error })
+      if (error instanceof AxiosError) {
+        if (error?.response?.status === 400) {
+          toast({
+            title: error.response.data.message,
+            status: "warning",
+            position: "top",
+          })
+        } else {
+          toast({
+            title: "Error de servidor",
+            description: error.message,
+            status: "error",
+            position: "top",
+          })
+        }
+      }
+    }
   }
 
   const onError = (errors: any) => {
