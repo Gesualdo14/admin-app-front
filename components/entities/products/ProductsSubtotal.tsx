@@ -29,12 +29,14 @@ const ProductsSubtotal = ({ comissions = 0 }) => {
         <Text>Iva</Text>
         <Text textAlign="end">${totalIva?.toFixed(2)}</Text>
       </Flex>
-      <Flex justifyContent="space-between">
-        <Text>Descuentos de productos</Text>
-        <Text textAlign="end" color="green.400">
-          -${discounts.toFixed(2)}
-        </Text>
-      </Flex>
+      {discounts > 0 && (
+        <Flex justifyContent="space-between">
+          <Text>Descuentos de productos</Text>
+          <Text textAlign="end" color="green.400">
+            -${discounts.toFixed(2)}
+          </Text>
+        </Flex>
+      )}
       {comissions > 0 && (
         <Flex justifyContent="space-between">
           <Text>Descuentos por comisiones</Text>
