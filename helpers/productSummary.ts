@@ -13,7 +13,7 @@ const productSummary = (
   const { qty, unit_price, iva, discount } = curr
   const { subtotal, discounts, totalIva } = acc
   const total = qty * unit_price
-  console.log({ total, iva, totalIva })
+
   return {
     subtotal: subtotal + total,
     totalIva: totalIva + total * (iva || 0.12),
