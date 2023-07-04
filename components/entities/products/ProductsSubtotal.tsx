@@ -13,6 +13,8 @@ const ProductsSubtotal = () => {
   if (!subtotal) return <></>
 
   const total = subtotal + totalIva - discounts
+
+  console.log({ totalIva, subtotal })
   return (
     <Flex flexDir="column" mt={3}>
       <Heading size="lg" m={0}>
@@ -24,7 +26,7 @@ const ProductsSubtotal = () => {
       </Flex>
       <Flex justifyContent="space-between">
         <Text>Iva</Text>
-        <Text textAlign="end">${totalIva.toFixed(2)}</Text>
+        <Text textAlign="end">${totalIva?.toFixed(2)}</Text>
       </Flex>
       <Flex justifyContent="space-between">
         <Text>Descuentos</Text>

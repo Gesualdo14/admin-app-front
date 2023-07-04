@@ -60,6 +60,7 @@ const SaleForm = ({
 
     return {
       ...data.data,
+      trigger_update: Math.random(), // Para que calcule al editar
       operation_date: getDateForInput(data?.data?.operation_date),
     }
   }
