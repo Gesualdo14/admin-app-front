@@ -65,7 +65,7 @@ const ClientItem = ({ client, onClick, selected }: Props) => {
             $ {client.sales?.amount?.toFixed(2)}
           </Text>
 
-          {client?.comissions && (
+          {(client?.comissions || 0) > 0 && (
             <Text as="span" fontSize="xs" color="purple.400">
               ${client?.comissions} en comisiones
             </Text>

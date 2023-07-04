@@ -8,9 +8,10 @@ interface Props {
   onSubmit?: (data: any, reset: any) => void
   reset?: () => void
   onClose?: () => void
+  comissions?: number
 }
 
-const SaleFormButtons = ({ saleId, onClose }: Props) => {
+const SaleFormButtons = ({ saleId, onClose, comissions = 0 }: Props) => {
   const {
     watch,
     formState: { isSubmitting },
@@ -24,7 +25,9 @@ const SaleFormButtons = ({ saleId, onClose }: Props) => {
   ])
 
   const payments = pm?.map((p) => p.amount).reduce((a, b) => a + b, 0) || 0
-  const total = subtotal + totalIva - discounts
+  const totalBeforeComissions = subtotal + totalIva - discounts
+  const finalComissions = Math.min(totalBeforeComissions, comissions)
+  const total = totalBeforeComissions - finalComissions
 
   return (
     <ButtonGroup mt={5}>

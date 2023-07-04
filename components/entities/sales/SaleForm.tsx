@@ -31,7 +31,7 @@ const SaleForm = ({
       `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales${PARAMS}`,
       {
         method: !!saleId ? "PUT" : "POST",
-        data: { ...data, client: clientId },
+        data: { ...data, client: clientId, comissions },
         withCredentials: true,
       }
     )
@@ -122,7 +122,11 @@ const SaleForm = ({
           placeholder="Documento referente..."
           showIf={clientSalesCount === 0}
         />
-        <SaleFormButtons saleId={saleId} onClose={onClose} />
+        <SaleFormButtons
+          saleId={saleId}
+          onClose={onClose}
+          comissions={comissions}
+        />
       </MyForm>
     </>
   )
