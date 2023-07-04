@@ -29,11 +29,14 @@ const SalesPanel = () => {
         selectedSaleId={selectedSale?._id}
       />
       <MyModal
-        title="Editar venta"
-        colorScheme="green"
+        title=""
+        buttonText="Ver venta"
+        colorScheme="blue"
         disableButton={!selectedSale}
       >
-        {() => <SaleForm saleId={selectedSale?._id} />}
+        {({ onClose }) => (
+          <SaleForm saleId={selectedSale?._id} onClose={onClose} />
+        )}
       </MyModal>
     </TabPanel>
   )

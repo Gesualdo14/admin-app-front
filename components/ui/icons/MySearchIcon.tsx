@@ -36,7 +36,6 @@ const MySearchIcon = ({ index }: Props) => {
           setValue(`products.${index}`, {
             code: code,
             name: product.name,
-            qty: 1,
             unit_price: finalPrice,
           })
         } else {

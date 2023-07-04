@@ -4,20 +4,29 @@ import axios from "axios"
 import { ProductFromDB } from "schemas/ProductSchema"
 import { env } from "~/env.mjs"
 import ProductItem from "./ProductItem"
+import { ProductForState } from "schemas/SaleSchema"
 
 interface Props {
   searchText?: string | undefined
   onClick: (product: ProductFromDB) => void
   selectedProducts?: ProductFromDB[]
+  addedProducts?: ProductForState[]
+  onlyToSell?: boolean
 }
-const ProductsList = ({ searchText, onClick, selectedProducts }: Props) => {
-  const PARAMS = !!searchText ? `?searchText=${searchText}` : ""
+const ProductsList = ({
+  searchText,
+  onClick,
+  selectedProducts,
+  addedProducts,
+  onlyToSell = false,
+}: Props) => {
+  const PARAMS = !!searchText ? `&searchText=${searchText}` : ""
 
   const { data: products, isLoading } = useQuery<ProductFromDB[]>({
-    queryKey: ["products", searchText],
+    queryKey: searchText ? ["products", searchText] : ["products"],
     queryFn: async () => {
       const res = await axios.get(
-        `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/products${PARAMS}`,
+        `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/products?toSell=${onlyToSell}${PARAMS}`,
         {
           withCredentials: true,
         }
@@ -25,9 +34,12 @@ const ProductsList = ({ searchText, onClick, selectedProducts }: Props) => {
       return res.data.data
     },
   })
-  if (isLoading) return <Spinner />
-  if (!products) return <Text mb={5}>No hay ventas para mostrar</Text>
-
+  let filteredProducts = products
+  if (Array.isArray(addedProducts)) {
+    filteredProducts = products?.filter((p) => {
+      return !addedProducts.find((ap) => ap.code === p.code)
+    })
+  }
   return (
     <Flex
       flexDirection="column"
@@ -37,7 +49,11 @@ const ProductsList = ({ searchText, onClick, selectedProducts }: Props) => {
       maxHeight="40vh"
       overflowY="scroll"
     >
-      {products.map((p) => (
+      {isLoading && <Spinner height={5} alignSelf="center" mt={10} mb={10} />}
+      {(!filteredProducts || filteredProducts.length === 0) && !isLoading && (
+        <Text mb={5}>No hay productos para mostrar</Text>
+      )}
+      {filteredProducts?.map((p) => (
         <ProductItem
           key={p._id}
           product={p}

@@ -1,13 +1,14 @@
-import { Flex, Text } from "@chakra-ui/react"
+import { Flex, Text, useToast } from "@chakra-ui/react"
 import MyDeleteIcon from "components/ui/icons/MyDeleteIcon"
-import MyInput from "components/ui/inputs/MyInput"
 import { useFormContext } from "react-hook-form"
 import { ProductForState, Sale } from "schemas/SaleSchema"
 import ProductSubtotal from "./ProductSubtotal"
+import getProductDiscount from "helpers/getProductDiscount"
 
-function ProductAdder() {
+function ProductAdder({ canRemove = true }) {
   const { watch } = useFormContext<Sale>()
   const products = watch("products")
+  const toast = useToast()
 
   if (!products || products?.length === 0) {
     return (
@@ -28,20 +29,40 @@ function ProductAdder() {
           mb={2}
           width="100%"
         >
-          <Flex alignItems="center" gap={2} flex={6}>
+          {canRemove && (
             <MyDeleteIcon<Sale> fieldName="products" index={index} />
-            <Text>{product.name}</Text>
+          )}
+          <Flex flexDir="column" flex={6}>
+            <Flex gap={2} mb={-0.5}>
+              <Text>{product.name}</Text>
+            </Flex>
+            <Flex>
+              <Text
+                fontSize="xs"
+                color="blue.400"
+                mr="0.5rem"
+                _hover={{ color: "green.400", cursor: "pointer" }}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  navigator.clipboard.writeText(product.code)
+                  toast({
+                    position: "top",
+                    title: "Código copiado",
+                    status: "success",
+                    duration: 1500,
+                  })
+                }}
+              >
+                {product.code}
+              </Text>
+              {getProductDiscount(product).discount > 0 && (
+                <Text fontSize="xs" color="red.400">
+                  {getProductDiscount(product).formattedDiscount}
+                </Text>
+              )}
+            </Flex>
           </Flex>
-          <MyInput
-            flex={2}
-            fieldName={`products.${index}.qty`}
-            label="Cantidad"
-            mb={0}
-            showLabel={false}
-            size="sm"
-            valueAsNumber
-            triggerUpdate
-          />
+
           <ProductSubtotal index={index} flex={3} />
         </Flex>
       ))}

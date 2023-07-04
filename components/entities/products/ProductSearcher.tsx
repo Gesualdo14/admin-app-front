@@ -1,20 +1,18 @@
-import { Button, Flex, Input, useModalContext } from "@chakra-ui/react"
+import { Button, useModalContext } from "@chakra-ui/react"
 import ProductsList from "./ProductsList"
-import { useRef, useState } from "react"
-import { Search2Icon } from "@chakra-ui/icons"
+import { useState } from "react"
 import { ProductFromDB } from "schemas/ProductSchema"
 import { useFieldArray, useFormContext } from "react-hook-form"
 import calcProductPrice from "helpers/calcProductPrice"
 import { Sale } from "schemas/SaleSchema"
+import SearchForm from "components/ui/forms/SearchForm"
 
 const ProductSearcher = () => {
-  const { control, setValue } = useFormContext<Sale>()
+  const { control, setValue, watch } = useFormContext<Sale>()
   const { onClose } = useModalContext()
   const { append } = useFieldArray({ control, name: "products" })
   const [searchText, setSearchText] = useState<string | undefined>("")
   const [selectedProducts, setSelectedProducts] = useState<ProductFromDB[]>([])
-
-  const inputRef = useRef<HTMLInputElement>(null)
 
   const handleClick = (p: ProductFromDB) => {
     const alreadyIncluded = selectedProducts.some((sp) => sp._id === p._id)
@@ -35,7 +33,6 @@ const ProductSearcher = () => {
         name,
         iva,
         discount,
-        qty: 1,
         unit_price,
       })
     }
@@ -45,26 +42,16 @@ const ProductSearcher = () => {
 
   return (
     <div>
-      <form
-        onSubmit={() => {
-          setSearchText(inputRef?.current?.value)
-        }}
-      >
-        <Flex alignItems="center" gap={2}>
-          <Input
-            flex={4}
-            ref={inputRef}
-            placeholder="Buscar por código o nombre..."
-          />
-          <Button type="submit">
-            <Search2Icon flex={1} />
-          </Button>
-        </Flex>
-      </form>
+      <SearchForm
+        setSearchText={setSearchText}
+        placeholder="Buscar por código..."
+      />
       <ProductsList
         searchText={searchText}
         onClick={handleClick}
         selectedProducts={selectedProducts}
+        addedProducts={watch("products")}
+        onlyToSell
       />
       <Button
         colorScheme="purple"

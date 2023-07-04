@@ -13,7 +13,7 @@ const SaleFormUpdater = () => {
       productSummary,
       defaultProductSummary
     )
-    console.log({ products })
+
     setValue("subtotal", subtotal)
     setValue("totalIva", totalIva)
     setValue("discounts", discounts)

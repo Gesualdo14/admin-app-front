@@ -11,7 +11,13 @@ import {
 import { useFieldArray, useFormContext } from "react-hook-form"
 import PMFormButtons from "./PMFormButtons"
 
-const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
+const PaymentMethodForm = ({
+  onClose,
+  comissions = 0,
+}: {
+  onClose?: () => void
+  comissions?: number
+}) => {
   const { control, watch } = useFormContext()
   const { append } = useFieldArray({ control, name: "payment_methods" })
   const [subtotal, totalIva, discounts] = watch([
@@ -23,7 +29,9 @@ const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
 
   const totalPM = paymentMethods?.reduce((acc, curr) => acc + curr.amount, 0)
 
-  const total = subtotal + totalIva - discounts
+  const totalBeforeComissions = subtotal + totalIva - discounts
+  const finalComissions = Math.min(totalBeforeComissions, comissions)
+  const total = totalBeforeComissions - finalComissions
 
   return (
     <MyForm<PaymentMethod>
@@ -32,7 +40,7 @@ const PaymentMethodForm = ({ onClose }: { onClose?: () => void }) => {
       onError={(data) => console.log({ data })}
       defaultValues={{
         method: "Sin utilización Sist. Financiero",
-        amount: (total - totalPM).toFixed(2),
+        amount: +(total - totalPM).toFixed(2),
         time_value: 0,
         time_unit: "Meses",
       }}

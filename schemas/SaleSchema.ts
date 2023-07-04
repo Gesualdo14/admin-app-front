@@ -17,7 +17,6 @@ export const saleProductSchema = z.object({
   code: z.string(),
   name: z.string().optional(),
   iva: z.number(),
-  qty: z.number(),
   unit_price: z.number(),
   discount: z.number().optional(),
 })
@@ -63,6 +62,7 @@ export interface SaleFormProps {
   saleId?: string
   clientId?: string
   clientSalesCount?: number
+  comissions?: number
   refetch?: () => void
   onClose?: () => void
 }

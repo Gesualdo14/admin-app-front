@@ -30,6 +30,27 @@ export const ClientSchema = z
       path: ["phoneNumber"],
     }
   )
+  .refine(
+    ({ document_type, document_value }) => {
+      if (document_type === "RUC" && document_value.length !== 13) return false
+      return true
+    },
+    {
+      message: "RUC debe tener 13 caracteres",
+      path: ["document_value"],
+    }
+  )
+  .refine(
+    ({ document_type, document_value }) => {
+      if (document_type === "Cédula" && document_value.length !== 10)
+        return false
+      return true
+    },
+    {
+      message: "Cédula debe tener 10 caracteres",
+      path: ["document_value"],
+    }
+  )
 
 export type Client = z.infer<typeof ClientSchema>
 

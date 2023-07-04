@@ -21,6 +21,7 @@ const SaleForm = ({
   clientId,
   refetch,
   onClose,
+  comissions,
   clientSalesCount,
 }: SaleFormProps) => {
   const onSubmit = async (data: Sale, reset: any): Promise<void> => {
@@ -81,13 +82,14 @@ const SaleForm = ({
           <Heading size="lg" m={0}>
             Productos
           </Heading>
-          <MyModal title="Elegir productos" buttonText="Agregar" size="xs">
-            {() => <ProductSearcher />}
-          </MyModal>
+          {!saleId && (
+            <MyModal title="Elegir productos" buttonText="Agregar" size="xs">
+              {() => <ProductSearcher />}
+            </MyModal>
+          )}
         </Flex>
-        {/* <Divider mb="3" mt="2" /> */}
-        <ProductAdder />
-        <ProductsSubtotal />
+        <ProductAdder canRemove={!saleId} />
+        <ProductsSubtotal comissions={comissions} />
         <Flex
           alignItems="center"
           justifyContent={"space-between"}
@@ -97,12 +99,23 @@ const SaleForm = ({
           <Heading size="lg" m={0}>
             Forma de pago
           </Heading>
-          <MyModal title="Elegir medio de pago" buttonText="Agregar" size="xs">
-            {({ onClose }) => <PaymentMethodForm onClose={onClose} />}
-          </MyModal>
+          {!saleId && (
+            <MyModal
+              title="Elegir medio de pago"
+              buttonText="Agregar"
+              size="xs"
+            >
+              {({ onClose }) => (
+                <PaymentMethodForm onClose={onClose} comissions={comissions} />
+              )}
+            </MyModal>
+          )}
         </Flex>
-        {/* <Divider mb="3" mt="2" /> */}
-        <PaymentMethodAdder fieldName="payment_methods" />
+        <PaymentMethodAdder
+          fieldName="payment_methods"
+          canRemove={!saleId}
+          comissions={comissions}
+        />
         <MyInput<Sale>
           fieldName="referalDoc"
           label="Referido por"

@@ -19,6 +19,7 @@ const SearchForm = ({ setSearchText, placeholder = "Buscar..." }: Props) => {
     <form
       onSubmit={(e) => {
         e.preventDefault()
+        e.stopPropagation()
         setSearchText(value)
       }}
     >

@@ -10,9 +10,9 @@ const productSummary = (
   acc: ProductsSummary,
   curr: ProductForState
 ): ProductsSummary => {
-  const { qty, unit_price, iva, discount } = curr
+  const { unit_price, iva, discount } = curr
   const { subtotal, discounts, totalIva } = acc
-  const total = qty * unit_price
+  const total = unit_price
 
   return {
     subtotal: subtotal + total,

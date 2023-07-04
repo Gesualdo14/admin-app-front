@@ -6,9 +6,11 @@ import PaymentMethodsSubtotal from "./PaymentMethodSubtotal"
 
 interface Props {
   fieldName: keyof Sale
+  canRemove: boolean
+  comissions?: number
 }
 
-function PaymentMethodAdder({ fieldName }: Props) {
+function PaymentMethodAdder({ fieldName, canRemove }: Props) {
   const { watch } = useFormContext()
   const paymentMethods = watch(fieldName)
 
@@ -31,7 +33,9 @@ function PaymentMethodAdder({ fieldName }: Props) {
           mb={2}
         >
           <Flex alignItems="center">
-            <MyDeleteIcon<Sale> fieldName="payment_methods" index={index} />
+            {canRemove && (
+              <MyDeleteIcon<Sale> fieldName="payment_methods" index={index} />
+            )}
             <Text ml={2}>{pm.method}</Text>
           </Flex>
           <Text>${pm.amount}</Text>

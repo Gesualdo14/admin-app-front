@@ -7,7 +7,7 @@ const ProductSubtotal = ({ index, flex }: { index: number; flex: number }) => {
   const product = watch(`products.${index}`)
   return (
     <Text flex={flex} textAlign="end">
-      ${(product.qty * product.unit_price).toFixed(2)}
+      ${product.unit_price.toFixed(2)}
     </Text>
   )
 }
