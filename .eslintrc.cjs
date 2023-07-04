@@ -41,21 +41,21 @@ const config = {
   //     },
   //   },
   // ],
-  // parser: "@typescript-eslint/parser",
-  // parserOptions: {
-  //   project: path.join(__dirname, "tsconfig.json"),
-  //   sourceType: "module",
-  // },
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: path.join(__dirname, "tsconfig.json"),
+    sourceType: "module",
+  },
   // plugins: ["@typescript-eslint"],
   // extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
-  // rules: {
-  //   "no-unsafe-assignment": "off",
-  //   "consistent-type-imports": "off",
-  //   "no-unused-vars": "off",
-  //   "no-unsafe-return": "off",
-  //   "no-unsafe-member-access": "off",
-  //   "no-unsafe-call": "off",
-  // },
+  rules: {
+    "no-unsafe-assignment": "off",
+    "consistent-type-imports": "off",
+    "no-unused-vars": "off",
+    "no-unsafe-return": "off",
+    "no-unsafe-member-access": "off",
+    "no-unsafe-call": "off",
+  },
 }
 
 module.exports = config
