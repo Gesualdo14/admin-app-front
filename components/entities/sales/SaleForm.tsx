@@ -1,4 +1,4 @@
-import { Flex, Heading } from "@chakra-ui/react"
+import { Flex, Heading, useToast } from "@chakra-ui/react"
 import axios, { AxiosResponse } from "axios"
 import { env } from "~/env.mjs"
 import "react-datepicker/dist/react-datepicker.css"
@@ -24,20 +24,26 @@ const SaleForm = ({
   comissions,
   clientSalesCount,
 }: SaleFormProps) => {
+  const toast = useToast()
   const onSubmit = async (data: Sale, reset: any): Promise<void> => {
     if (!clientId) return
     const PARAMS = !!saleId ? `/${saleId}` : ""
-    await axios<any, AxiosResponse<ApiResponse<SaleFromDB>>>(
-      `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales${PARAMS}`,
-      {
-        method: !!saleId ? "PUT" : "POST",
-        data: { ...data, client: clientId, comissions },
-        withCredentials: true,
-      }
-    )
-    refetch && refetch()
-    reset()
-    onClose && onClose()
+    try {
+      await axios<any, AxiosResponse<ApiResponse<SaleFromDB>>>(
+        `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/sales${PARAMS}`,
+        {
+          method: !!saleId ? "PUT" : "POST",
+          data: { ...data, client: clientId, comissions },
+          withCredentials: true,
+        }
+      )
+      refetch && refetch()
+      reset()
+      onClose && onClose()
+    } catch (error: any) {
+      console.log({ error })
+      toast({ title: error.response.data.message, status: "warning" })
+    }
   }
 
   const onError = (errors: any) => console.log(errors)

@@ -1,4 +1,4 @@
-import { Flex, useModalContext } from "@chakra-ui/react"
+import { Flex, useModalContext, useToast } from "@chakra-ui/react"
 import axios, { AxiosResponse } from "axios"
 import MyForm from "components/ui/forms/MyForm"
 import MyInput from "components/ui/inputs/MyInput"
@@ -16,20 +16,26 @@ import ClientButtons from "./ClientButtons"
 
 const ClientForm = ({ clientId, refetch }: ClientFormProps) => {
   const { onClose } = useModalContext()
-
+  const toast = useToast()
   const onSubmit = async (state: Client, reset: () => void) => {
     const PARAMS = !!clientId ? `/${clientId}` : ""
-    await axios<any, AxiosResponse<ApiResponse<ClientFromDB>>>(
-      `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/clients${PARAMS}`,
-      {
-        method: !!clientId ? "PUT" : "POST",
-        data: state,
-        withCredentials: true,
-      }
-    )
-    reset()
-    onClose()
-    refetch && refetch()
+
+    try {
+      await axios<any, AxiosResponse<ApiResponse<ClientFromDB>>>(
+        `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/clients${PARAMS}`,
+        {
+          method: !!clientId ? "PUT" : "POST",
+          data: state,
+          withCredentials: true,
+        }
+      )
+      reset()
+      onClose()
+      refetch && refetch()
+    } catch (error: any) {
+      console.log({ error })
+      toast({ title: error.response.data.message, status: "warning" })
+    }
   }
 
   const onError = (errors: FieldValues) => {

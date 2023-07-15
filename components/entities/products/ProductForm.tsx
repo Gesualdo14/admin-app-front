@@ -1,4 +1,4 @@
-import { Flex, useModalContext } from "@chakra-ui/react"
+import { Flex, useModalContext, useToast } from "@chakra-ui/react"
 import axios, { AxiosResponse } from "axios"
 import MyForm from "components/ui/forms/MyForm"
 import MyInput from "components/ui/inputs/MyInput"
@@ -21,21 +21,27 @@ interface Props {
 
 const ProductForm = ({ productId, refetch, submitText }: Props) => {
   const { onClose } = useModalContext()
+  const toast = useToast()
 
   const onSubmit = async (state: Product, reset: () => void) => {
     const editing = !!productId && !submitText
     const PARAMS = editing ? `/${productId}` : ""
-    await axios<any, AxiosResponse<ApiResponse<ProductFromDB>>>(
-      `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/products${PARAMS}`,
-      {
-        method: editing ? "PUT" : "POST",
-        data: state,
-        withCredentials: true,
-      }
-    )
-    reset()
-    onClose()
-    refetch && refetch()
+    try {
+      await axios<any, AxiosResponse<ApiResponse<ProductFromDB>>>(
+        `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/products${PARAMS}`,
+        {
+          method: editing ? "PUT" : "POST",
+          data: state,
+          withCredentials: true,
+        }
+      )
+      reset()
+      onClose()
+      refetch && refetch()
+    } catch (error: any) {
+      console.log({ error })
+      toast({ title: error.response.data.message, status: "warning" })
+    }
   }
 
   const onError = (errors: FieldValues) => {
