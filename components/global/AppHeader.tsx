@@ -8,7 +8,7 @@ const AppHeader = () => {
   const router = useRouter()
   return (
     <Flex justifyContent="space-between" alignItems="center" mb={8}>
-      <Avatar src="/logo.jpg" />
+      <Avatar src="/logo.png" />
       {!user && (
         <Button
           colorScheme="blue"
