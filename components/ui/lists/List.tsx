@@ -19,7 +19,6 @@ const List = <T,>({
   children,
 }: Props<T>) => {
   const PARAMS = paramsGenerator(urlParams)
-  console.log({ PARAMS })
   const { data, isLoading, refetch } = useFetch<T>({
     path,
     params: PARAMS,
