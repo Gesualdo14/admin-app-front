@@ -23,7 +23,7 @@ const SalesPanel = () => {
 
       <List<SaleFromDB>
         path="sales"
-        urlParams={{ selectedMonth, selectedYear }}
+        urlParams={{ month: selectedMonth, year: selectedYear }}
       >
         {({ items }) => (
           <>
