@@ -35,14 +35,18 @@ const List = <T,>({
 
   const noData = !finalData || finalData.length === 0
 
+  if (noData && !isLoading) {
+    return (
+      <Text mt={5} mb={25} textAlign="center">
+        No se encontraron registros en la base de datos
+      </Text>
+    )
+  }
+
   return (
     <Flex flexDir="column">
       {isLoading && <Spinner alignSelf="center" mt={20} mb={20} />}
-      {noData && !isLoading && (
-        <Text mt={5} textAlign="center">
-          No se encontraron registros en la base de datos
-        </Text>
-      )}
+
       {finalData && (
         <Flex flexDirection="column" p={1} gap={2}>
           {children({ refetch, items: finalData })}

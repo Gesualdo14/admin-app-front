@@ -47,19 +47,19 @@ const SalesPanel = () => {
                 />
               ))}
             </Flex>
+            <MyModal
+              title=""
+              buttonText="Ver venta"
+              colorScheme="blue"
+              disableButton={!selectedSale}
+            >
+              {({ onClose }) => (
+                <SaleForm saleId={selectedSale?._id} onClose={onClose} />
+              )}
+            </MyModal>
           </>
         )}
       </List>
-      <MyModal
-        title=""
-        buttonText="Ver venta"
-        colorScheme="blue"
-        disableButton={!selectedSale}
-      >
-        {({ onClose }) => (
-          <SaleForm saleId={selectedSale?._id} onClose={onClose} />
-        )}
-      </MyModal>
     </TabPanel>
   )
 }
