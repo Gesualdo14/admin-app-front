@@ -36,7 +36,9 @@ const SalesSummary = ({
   return (
     <Flex flexDir="column">
       {isLoading && <Spinner alignSelf="center" mt={10} />}
-      {!periods && <Text mb={5}>No hay ventas para mostrar</Text>}
+      {!periods && !isLoading && (
+        <Text mb={5}>No hay períodos para mostrar</Text>
+      )}
       {periods && (
         <Flex p={1} gap={2} mt={4}>
           {periods.map((p: any) => (
