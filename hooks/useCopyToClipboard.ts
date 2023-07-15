@@ -1,13 +1,12 @@
-import { useToast } from "@chakra-ui/react"
+import { UseToastOptions } from "@chakra-ui/react"
 
 interface Props {
   text: string
   title: string
+  toast: (options: UseToastOptions) => void
 }
 
-export const useCopyToClipboard = ({ text, title }: Props) => {
-  const toast = useToast()
-
+export const useCopyToClipboard = ({ text, title, toast }: Props) => {
   const copyToClipboard = (e: MouseEvent) => {
     e.stopPropagation()
     navigator.clipboard.writeText(text)

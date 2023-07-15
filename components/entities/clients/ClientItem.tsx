@@ -1,4 +1,5 @@
-import { Card, Flex, Text } from "@chakra-ui/react"
+import { Card, Flex, Text, useToast } from "@chakra-ui/react"
+import { copyToClipboard } from "helpers/copyToClipboard"
 import { ClientFromDB } from "schemas/ClientSchema"
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 const ClientItem = ({ client, onClick, selected }: Props) => {
   const noSales = client.sales?.count === 0 || !client.sales?.count
   const s = client.sales?.count === 1 ? "" : "s"
-  // const toast = useToast()
+  const toast = useToast()
   return (
     <Card
       key={client._id}
@@ -40,14 +41,13 @@ const ClientItem = ({ client, onClick, selected }: Props) => {
           display="inline"
           color="blue.400"
           _hover={{ color: "green.400" }}
-          // onClick={(e) =>
-          //   copyToClipboard({
-          //     event: e,
-          //     text: client.document_value,
-          //     toast,
-          //     title: "Documento copiado",
-          //   })
-          // }
+          onClick={(e) =>
+            copyToClipboard({
+              e,
+              text: client.document_value,
+              toast,
+            })
+          }
         >
           {client.document_value}{" "}
           <Text as="span" fontSize="xs" display="inline" color="gray">
