@@ -11,7 +11,7 @@ export const copyToClipboard = ({ e, text, toast }: Props) => {
   navigator.clipboard.writeText(text)
   toast({
     position: "top",
-    title: text,
+    title: `Valor copiado ${text}`,
     status: "success",
     duration: 1500,
   })
