@@ -13,7 +13,7 @@ const paramsGenerator = (params: Props) => {
     const value = params[key]
     const isLastOne = index === keys.length - 1
 
-    if (value !== undefined) {
+    if (!!value) {
       finalParms += `${key}=${value}${!isLastOne ? "&" : ""}`
     }
   }
