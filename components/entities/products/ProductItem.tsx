@@ -1,7 +1,8 @@
-import { Badge, Card, Flex, Text, useToast } from "@chakra-ui/react"
+import { Badge, Flex, Text } from "@chakra-ui/react"
 import calcProductPrice from "helpers/calcProductPrice"
 import { ProductFromDB } from "schemas/ProductSchema"
 import getProductDiscount from "../../../helpers/getProductDiscount"
+import ListItemWrapper from "components/ui/lists/ListItemWrapper"
 
 interface Props {
   product: ProductFromDB
@@ -11,25 +12,9 @@ interface Props {
 
 const ProductItem = ({ product, onClick, selected }: Props) => {
   const productPrice = calcProductPrice(product, true)
-  const toast = useToast()
   const { discount, formattedDiscount } = getProductDiscount(product)
   return (
-    <Card
-      key={product._id}
-      py={2}
-      px={4}
-      cursor="pointer"
-      bg={selected ? "gray.100" : "white"}
-      color="black"
-      _hover={{
-        backgroundColor: "gray.100",
-        color: "#222",
-        transition: "0.2s background-color ease-out, 0.2s color ease-out",
-      }}
-      onClick={() => onClick(product)}
-      flexDir="row"
-      justifyContent="space-between"
-    >
+    <ListItemWrapper onClick={() => onClick(product)} selected={selected}>
       <Flex flexDir="column">
         <Flex alignItems="center">
           <Text>{product.name}</Text>
@@ -44,16 +29,14 @@ const ProductItem = ({ product, onClick, selected }: Props) => {
           display="inline"
           color="blue.400"
           _hover={{ color: "green.400" }}
-          onClick={(e) => {
-            e.stopPropagation()
-            navigator.clipboard.writeText(product.code)
-            toast({
-              position: "top",
-              title: "Código copiado",
-              status: "success",
-              duration: 1500,
-            })
-          }}
+          // onClick={(e) =>
+          //   copyToClipboard({
+          //     event: e,
+          //     text: product.code,
+          //     toast,
+          //     title: "Código copiado",
+          //   })
+          // }
         >
           {product.code}
         </Text>
@@ -66,7 +49,7 @@ const ProductItem = ({ product, onClick, selected }: Props) => {
           </Text>
         )}
       </Flex>
-    </Card>
+    </ListItemWrapper>
   )
 }
 

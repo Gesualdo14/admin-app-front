@@ -1,14 +1,15 @@
-import { Flex, Text, useToast } from "@chakra-ui/react"
+import { Flex, Text } from "@chakra-ui/react"
 import MyDeleteIcon from "components/ui/icons/MyDeleteIcon"
 import { useFormContext } from "react-hook-form"
 import { ProductForState, Sale } from "schemas/SaleSchema"
 import ProductSubtotal from "./ProductSubtotal"
 import getProductDiscount from "helpers/getProductDiscount"
+// import { useCopyToClipboard } from "hooks/useCopyToClipboard"
 
 function ProductAdder({ canRemove = true }) {
   const { watch } = useFormContext<Sale>()
   const products = watch("products")
-  const toast = useToast()
+  // const copyToClipboard = useCopyToClipboard({ text: "", title: "" })
 
   if (!products || products?.length === 0) {
     return (
@@ -42,16 +43,14 @@ function ProductAdder({ canRemove = true }) {
                 color="blue.400"
                 mr="0.5rem"
                 _hover={{ color: "green.400", cursor: "pointer" }}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  navigator.clipboard.writeText(product.code)
-                  toast({
-                    position: "top",
-                    title: "Código copiado",
-                    status: "success",
-                    duration: 1500,
-                  })
-                }}
+                // onClick={(e) =>
+                //   copyToClipboard({
+                //     event: e,
+                //     text: product.code,
+                //     toast,
+                //     title: "Código copiado",
+                //   })
+                // }
               >
                 {product.code}
               </Text>

@@ -1,17 +1,18 @@
 import { Button, useModalContext } from "@chakra-ui/react"
-import ProductsList from "./ProductsList"
 import { useState } from "react"
 import { ProductFromDB } from "schemas/ProductSchema"
 import { useFieldArray, useFormContext } from "react-hook-form"
 import calcProductPrice from "helpers/calcProductPrice"
 import { Sale } from "schemas/SaleSchema"
 import SearchForm from "components/ui/forms/SearchForm"
+import List from "components/ui/lists/List"
+import ProductItem from "./ProductItem"
 
 const ProductSearcher = () => {
   const { control, setValue, watch } = useFormContext<Sale>()
   const { onClose } = useModalContext()
   const { append } = useFieldArray({ control, name: "products" })
-  const [searchText, setSearchText] = useState<string | undefined>("")
+  const [searchText, setSearchText] = useState<string>("")
   const [selectedProducts, setSelectedProducts] = useState<ProductFromDB[]>([])
 
   const handleClick = (p: ProductFromDB) => {
@@ -39,6 +40,7 @@ const ProductSearcher = () => {
     setValue("trigger_update", Math.random())
     onClose()
   }
+  const addedProducts = watch("products")
 
   return (
     <div>
@@ -46,13 +48,24 @@ const ProductSearcher = () => {
         setSearchText={setSearchText}
         placeholder="Buscar por código..."
       />
-      <ProductsList
-        searchText={searchText}
-        onClick={handleClick}
-        selectedProducts={selectedProducts}
-        addedProducts={watch("products")}
-        onlyToSell
-      />
+      <List<ProductFromDB>
+        path="products"
+        filterFunction={(p) => !addedProducts.find((ap) => ap.code === p.code)}
+        urlParams={{ searchText, toSell: true }}
+      >
+        {({ items }) => (
+          <>
+            {items.map((p) => (
+              <ProductItem
+                key={p._id}
+                product={p}
+                onClick={handleClick}
+                selected={selectedProducts?.includes(p)}
+              />
+            ))}
+          </>
+        )}
+      </List>
       <Button
         colorScheme="purple"
         isDisabled={selectedProducts.length === 0}

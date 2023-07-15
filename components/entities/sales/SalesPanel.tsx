@@ -1,10 +1,11 @@
-import { TabPanel } from "@chakra-ui/react"
-import SalesList from "./SalesList"
+import { Flex, TabPanel } from "@chakra-ui/react"
 import MyModal from "components/ui/modals/MyModal"
 import { useState } from "react"
 import { SaleFromDB } from "schemas/SaleSchema"
 import SaleForm from "./SaleForm"
 import SalesSummary from "./SalesSummary"
+import List from "components/ui/lists/List"
+import SaleItem from "./SaleItem"
 
 const SalesPanel = () => {
   const [selectedSale, setSelectedSale] = useState<SaleFromDB | null>()
@@ -19,15 +20,36 @@ const SalesPanel = () => {
         setSelectedYear={setSelectedYear}
         selectedYear={selectedYear}
       />
-      <SalesList
-        selectedMonth={selectedMonth}
-        selectedYear={selectedYear}
-        onClick={(s) => {
-          const valueToSet = s._id === selectedSale?._id ? null : s
-          setSelectedSale(valueToSet)
-        }}
-        selectedSaleId={selectedSale?._id}
-      />
+
+      <List<SaleFromDB>
+        path="sales"
+        urlParams={{ selectedMonth, selectedYear }}
+      >
+        {({ items }) => (
+          <>
+            <Flex
+              flexDirection="column"
+              p={1}
+              gap={2}
+              my={4}
+              maxHeight="40vh"
+              overflowY="scroll"
+            >
+              {items.map((s) => (
+                <SaleItem
+                  key={s._id}
+                  sale={s}
+                  onClick={(s) => {
+                    const valueToSet = s._id === selectedSale?._id ? null : s
+                    setSelectedSale(valueToSet)
+                  }}
+                  selected={selectedSale?._id === s._id}
+                />
+              ))}
+            </Flex>
+          </>
+        )}
+      </List>
       <MyModal
         title=""
         buttonText="Ver venta"
