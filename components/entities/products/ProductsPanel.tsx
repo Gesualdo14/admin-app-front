@@ -59,7 +59,7 @@ const ProductsPanel = () => {
                 title={`Replicar ${selectedProduct?.name || ""}`}
                 mr={2}
                 colorScheme="green"
-                disableButton={!selectedProduct}
+                disableButton={!selectedProduct || selectedProduct?.sold}
               >
                 {() => (
                   <ProductForm
