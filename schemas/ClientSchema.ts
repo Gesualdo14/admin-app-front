@@ -9,15 +9,13 @@ export const DOC_TYPES = [
 
 export const ClientSchema = z
   .object({
-    firstname: z.string().min(3, "El nombre debe tener al menos 3 caracteres"),
-    lastname: z.string().min(3, "El apellido debe tener al menos 3 caracteres"),
+    firstname: z.string().min(3, "Al menos 3 caracteres"),
+    lastname: z.string().min(3, "Al menos 3 caracteres"),
     email: z.string().email("Email inválido"),
     phoneCode: z.string().default("593"),
     phoneNumber: z.string(),
     document_type: z.enum(DOC_TYPES),
-    document_value: z
-      .string()
-      .min(4, "El documento debe tener al menos 4 caracteres"),
+    document_value: z.string().min(4, "Al menos 4 caracteres"),
     file: z.any(),
   })
   .refine(

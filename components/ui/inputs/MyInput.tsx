@@ -66,7 +66,7 @@ function MyInput<T>({
 
   return (
     <FormControl mb={mb} isInvalid={!!errors[fieldName as string]} flex={flex}>
-      {!!showLabel && <FormLabel>{label}</FormLabel>}
+      {!!showLabel && <FormLabel mb={1}>{label}</FormLabel>}
       <Flex gap={2}>
         {searchFn && (
           <IconButton
@@ -77,7 +77,7 @@ function MyInput<T>({
         )}
         {FinalInput}
       </Flex>
-      <FormErrorMessage>
+      <FormErrorMessage mt={1}>
         {errors[fieldName]?.message as ReactNode}
       </FormErrorMessage>
     </FormControl>
