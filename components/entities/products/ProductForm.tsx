@@ -99,7 +99,12 @@ const ProductForm = ({ productId, refetch, submitText }: Props) => {
           valueAsNumber
         />
       </Flex>
-      <MyInput<Product> fieldName="discount" label="Descuento" valueAsNumber />
+      <MyInput<Product>
+        fieldName="discount"
+        label="Descuento"
+        placeholder="Entre 0 y 1"
+        valueAsNumber
+      />
       <SubmitButtons<ProductForState>
         editing={!!productId}
         submitText={submitText}
