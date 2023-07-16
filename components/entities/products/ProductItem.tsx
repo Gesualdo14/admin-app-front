@@ -15,6 +15,7 @@ const ProductItem = ({ product, onClick, selected }: Props) => {
   const productPrice = calcProductPrice(product, true)
   const toast = useToast()
   const { discount, formattedDiscount } = getProductDiscount(product)
+
   return (
     <ListItemWrapper onClick={() => onClick(product)} selected={selected}>
       <Flex flexDir="column">

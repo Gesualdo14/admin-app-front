@@ -41,7 +41,6 @@ const SaleForm = ({
       reset()
       onClose && onClose()
     } catch (error: any) {
-      console.log({ error })
       toast({ title: error.response.data.message, status: "warning" })
     }
   }

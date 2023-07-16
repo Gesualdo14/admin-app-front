@@ -52,9 +52,15 @@ const MyForm = <T,>({
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={methods.handleSubmit(async (data) => {
-          await onSubmit(data, methods.reset) // Si o si el await para el loading
-        }, onError)}
+        onSubmit={methods.handleSubmit(
+          async (data) => {
+            await onSubmit(data, methods.reset) // Si o si el await para el loading
+          },
+          (errors) => {
+            console.log({ data: methods.getValues() })
+            onError(errors)
+          }
+        )}
       >
         {renderChildren()}
       </form>

@@ -28,7 +28,7 @@ const ProductSearcher = () => {
     for (const product of selectedProducts) {
       const unit_price = calcProductPrice(product)
       const { code, name, iva, discount } = product
-
+      console.log({ product })
       append({
         code,
         name,
