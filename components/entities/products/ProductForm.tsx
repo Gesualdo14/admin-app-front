@@ -84,7 +84,7 @@ const ProductForm = ({ productId, refetch, submitText }: Props) => {
       />
 
       <Flex gap={2}>
-        <MyInput<Product> fieldName="iva" label="Iva" />
+        <MyInput<Product> fieldName="iva" label="Iva" valueAsNumber />
         <MyInput<Product> fieldName="micro" label="Micro" valueAsNumber />
       </Flex>
       <Flex gap={3} mb={5}>
