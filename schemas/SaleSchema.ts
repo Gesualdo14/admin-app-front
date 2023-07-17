@@ -23,7 +23,7 @@ export const saleProductSchema = z.object({
 
 export const salePaymentMethodSchema = z.object({
   method: z.enum(PAYMENT_METHOD_TYPES),
-  amount: z.number(),
+  amount: z.number().min(1, "El monto debe ser mayor a 0"),
   time_unit: TIME_UNITS.nullish(),
   time_value: z.number().nullish(),
 })

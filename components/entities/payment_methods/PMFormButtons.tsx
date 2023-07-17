@@ -10,7 +10,7 @@ interface Props {
 }
 
 const PMFormButtons = ({ append, onClose }: Props) => {
-  const { getValues } = useFormContext<PaymentMethod>()
+  const { getValues, setError } = useFormContext<PaymentMethod>()
   return (
     <Button
       colorScheme="purple"
@@ -19,6 +19,10 @@ const PMFormButtons = ({ append, onClose }: Props) => {
           const pm = getValues()
           const { time_value, time_unit, ...cleanedPM } = pm
           const pmToAppend = pm.method === "Tarjeta de crédito" ? pm : cleanedPM
+          if (cleanedPM.amount <= 0) {
+            setError("amount", { message: "El valor debe ser mayor a 0" })
+            return
+          }
           append && append(pmToAppend)
           onClose && onClose()
         }
