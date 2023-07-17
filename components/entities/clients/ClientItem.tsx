@@ -12,6 +12,7 @@ const ClientItem = ({ client, onClick, selected }: Props) => {
   const noSales = client.sales?.count === 0 || !client.sales?.count
   const s = client.sales?.count === 1 ? "" : "s"
   const toast = useToast()
+  console.log({ client })
   return (
     <Card
       key={client._id}
@@ -55,21 +56,20 @@ const ClientItem = ({ client, onClick, selected }: Props) => {
           </Text>
         </Text>
       </Flex>
-      {noSales ? (
-        <Text color="red.600">Sin ventas</Text>
-      ) : (
-        <Flex flexDir="column" alignItems="flex-end">
+      <Flex flexDir="column" alignItems="flex-end">
+        {noSales ? (
+          <Text color="red.600">Sin ventas</Text>
+        ) : (
           <Text color="green" title={`${client.sales?.count} venta${s}`}>
             $ {client.sales?.amount?.toFixed(2)}
           </Text>
-
-          {(client?.comissions || 0) > 0 && (
-            <Text as="span" fontSize="xs" color="purple.400">
-              ${client?.comissions} en comisiones
-            </Text>
-          )}
-        </Flex>
-      )}
+        )}
+        {(client?.comissions || 0) > 0 && (
+          <Text as="span" fontSize="xs" color="purple.400">
+            ${client?.comissions} en comisiones
+          </Text>
+        )}
+      </Flex>
     </Card>
   )
 }
