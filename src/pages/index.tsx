@@ -17,7 +17,6 @@ const Home: NextPage = () => {
       </Head>
       <Container marginTop={8}>
         <AppHeader />
-
         <Card p={4}>
           <Tabs variant="enclosed" colorScheme="blue" isLazy>
             <TabList>
